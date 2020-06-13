@@ -3,10 +3,42 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import state from "./redux/state";
+import {BrowserRouter} from "react-router-dom";
 
-ReactDOM.render(<App />, document.getElementById('root'));
+export type PostsType = {
+    id: string
+    message: string
+    likeCount: number
+}
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
+export type DialogsType = {
+    id: string
+    name: string
+}
+
+export type MessagesType = {
+    id: string
+    message: string
+}
+
+export type ProfilePageType = {
+    posts: Array<PostsType>
+}
+
+export type DialogsPageType = {
+    messages: Array<MessagesType>
+    dialogs: Array<DialogsType>
+}
+
+export type StateType = {
+    profilePage: ProfilePageType
+    dialogsPage: DialogsPageType
+}
+
+ReactDOM.render(
+    <BrowserRouter>
+        <App state={state}/>
+    </BrowserRouter>, document.getElementById('root'));
+
 serviceWorker.unregister();

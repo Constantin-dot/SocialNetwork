@@ -1,0 +1,9 @@
+.friendsItem {
+    display: inline;
+    border-radius: 50%;
+    font-weight: bold;
+    border: 2px solid cadetblue;
+    background-color: goldenrod;
+    margin: 5px;
+    padding: 5px;
+}

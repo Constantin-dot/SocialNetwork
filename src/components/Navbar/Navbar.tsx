@@ -1,8 +1,14 @@
 import React from "react";
 import classes from "./Navbar.module.css";
 import {NavLink} from "react-router-dom";
+import Friends from "../Friends/Friends";
+import {DialogsPageType} from "../../index";
 
-function Navbar()  {
+type NavbarPropsType = {
+    dialogsPage: DialogsPageType
+}
+
+function Navbar(props:NavbarPropsType)  {
     return (
         <nav className={classes.nav}>
             <div className={classes.item}>
@@ -19,6 +25,10 @@ function Navbar()  {
             </div>
             <div className={classes.item}>
                 <NavLink to="/settings" activeClassName={classes.active}>Settings</NavLink>
+            </div>
+            <div className={classes.item}>
+                <NavLink to="/friends" activeClassName={classes.active}>Friends</NavLink>
+                <Friends dialogsPage={props.dialogsPage}/>
             </div>
         </nav>
     )

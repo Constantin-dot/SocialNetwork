@@ -2,22 +2,25 @@ import React from "react";
 import classes from "./Dialogs.module.css";
 import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";
+import {DialogsType, DialogsPageType, MessagesType} from "../../index";
 
-const Dialogs = () => {
+type PropsDialogsType = {
+    dialogsPage: DialogsPageType
+}
+
+const Dialogs = (props:PropsDialogsType) => {
+
+    let dialogsElements = props.dialogsPage.dialogs.map( (d:DialogsType) => <DialogItem id={d.id} name={d.name}/>);
+    let messagesElements = props.dialogsPage.messages.map((m:MessagesType) => <Message message={m.message}/>)
+
+
     return (
         <div className={classes.dialogs}>
             <div className={classes.dialogsItems}>
-                <DialogItem id={"1"} name={"Dima"}/>
-                <DialogItem id={"2"} name={"Andrey"}/>
-                <DialogItem id={"3"} name={"Sveta"}/>
-                <DialogItem id={"4"} name={"Sasha"}/>
-                <DialogItem id={"5"} name={"Viktor"}/>
-                <DialogItem id={"6"} name={"Valera"}/>
+                {dialogsElements}
             </div>
             <div className={classes.messages}>
-                <Message message={"Hi!"}/>
-                <Message message={"How are you?"}/>
-                <Message message={"Yo Yo"}/>
+                {messagesElements}
             </div>
         </div>
     )

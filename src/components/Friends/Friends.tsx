@@ -1,6 +1,7 @@
 import React from "react";
-import {DialogsPageType, DialogsType} from "../../index";
+
 import classes from "./Friends.module.css";
+import {DialogsPageType, DialogType} from "../../redux/state";
 
 
 type PropsFriendsType = {
@@ -8,7 +9,7 @@ type PropsFriendsType = {
 }
 
 const Friends = (props: PropsFriendsType) => {
-    let friendsElements = props.dialogsPage.dialogs.map( (d:DialogsType) => <div className={classes.friendsItem}>{d.name}</div>);
+    let friendsElements = props.dialogsPage.dialogs.map( (d:DialogType) => <div className={classes.friendsItem} key={d.id}>{d.name}</div>);
 
     return (
         <div>

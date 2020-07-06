@@ -1,26 +1,38 @@
-import React from "react";
+import React, {ChangeEvent} from "react";
 import classes from "./MyPosts.module.css";
 import Post from "./Post/Post";
-import {PostsType} from "../../../index";
-
+import {PostType} from "../../../redux/state";
 
 type PropsType = {
-    posts:Array<PostsType>
+    posts:Array<PostType>
+    dispatch: (action: any) => void
+    newPostText: string
 }
 
 const MyPosts = (props: PropsType) => {
 
-    let postsElements = props.posts.map((p) => <Post message ={p.message} likeCount={p.likeCount} />)
+    let postsElements = props.posts.map((p) => <Post key={p.id} message ={p.message} likeCount={p.likeCount} id={p.id}/>)
+
+    let addPost = () => {
+        props.dispatch({type: 'ADD-POST'});
+    };
+
+    let newTextChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        props.dispatch({type: 'CHANGE-NEW-POST-TEXT', newText: e.currentTarget.value});
+    }
 
     return (
         <div className={classes.myPosts}>
             <h3>My posts</h3>
             <div>
                 <div>
-                    <textarea></textarea>
+                    <textarea
+                        onChange={newTextChangeHandler}
+                        value={props.newPostText}
+                    />
                 </div>
                 <div>
-                    <button>Add post</button>
+                    <button onClick={addPost}>Add post</button>
                 </div>
             </div>
             <div className={classes.posts}>

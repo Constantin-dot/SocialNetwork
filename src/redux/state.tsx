@@ -1,25 +1,113 @@
-let state = {
-    profilePage : {
-        posts: [
-            {id: '1', message: 'hi, how are you?', likeCount: 5},
-            {id: '2', message: 'It\'s my first post', likeCount: 11}
-        ]
-    },
-    dialogsPage : {
-        messages: [
-            {id: '1', message: 'Hi!'},
-            {id: '2', message: 'How are you?'},
-            {id: '3', message: 'Yo Yo'}
-        ],
-        dialogs: [
-            {id:'1', name: 'Dima'},
-            {id:'2', name: 'Andrey'},
-            {id:'3', name: 'Sveta'},
-            {id:'4', name: 'Sasha'},
-            {id:'5', name: 'Viktor'},
-            {id:'6', name: 'Valera'}
-        ]
-    }
+import {v1} from "uuid";
+
+export type PostType = {
+    id: string
+    message: string
+    likeCount: number
 }
 
-export default state;
+export type ProfilePageType = {
+    posts: Array<PostType>
+    newPostText: string
+}
+
+export type MessageType = {
+    id: string
+    message: string
+}
+
+export type DialogType = {
+    id: string
+    name: string
+}
+
+export type DialogsPageType = {
+    messages: Array<MessageType>
+    dialogs: Array<DialogType>
+    newDialogText: string
+}
+
+export type StateType = {
+    profilePage: ProfilePageType
+    dialogsPage: DialogsPageType
+}
+
+export type StoreType = {
+    _state: StateType,
+    _callSubscriber: () => void,
+    getState: () => StateType,
+    subscribe:(observer: any) => void,
+    dispatch:(action: any) => void,
+}
+
+let store: StoreType = {
+    _state:  {
+        profilePage : {
+            posts: [
+                {id: v1(), message: 'hi, how are you?', likeCount: 5},
+                {id: v1(), message: 'It\'s my first post', likeCount: 11},
+            ],
+            newPostText: '',
+        },
+        dialogsPage : {
+            messages: [
+                {id: v1(), message: 'Hi!'},
+                {id: v1(), message: 'How are you?'},
+                {id: v1(), message: 'Yo Yo'},
+            ],
+            dialogs: [
+                {id: v1(), name: 'Dima'},
+                {id: v1(), name: 'Andrey'},
+                {id: v1(), name: 'Sveta'},
+                {id: v1(), name: 'Sasha'},
+                {id: v1(), name: 'Viktor'},
+                {id: v1(), name: 'Valera'},
+            ],
+            newDialogText: '',
+        },
+    },
+
+    _callSubscriber() {
+        console.log('State changed');
+    },
+
+    getState() {
+        return this._state;
+    },
+
+    subscribe(observer: any) {
+        this._callSubscriber = observer;
+    },
+
+    dispatch(action) {
+        if (action.type === 'ADD-POST') {
+            const newPost: PostType = {
+                id: v1(),
+                message: this._state.profilePage.newPostText,
+                likeCount: 0,
+            };
+            this._state.profilePage.posts.push(newPost);
+            this._state.profilePage.newPostText = '';
+            this._callSubscriber();
+        } else if (action.type === 'CHANGE-NEW-POST-TEXT') {
+            this._state.profilePage.newPostText = action.newText;
+            this._callSubscriber();
+        } else if (action.type === 'ADD-MESSAGE') {
+            const newMessage: MessageType = {
+                id: v1(),
+                message: this._state.dialogsPage.newDialogText,
+            };
+            this._state.dialogsPage.messages.push(newMessage);
+            this._state.dialogsPage.newDialogText = '';
+            this._callSubscriber();
+        } else if (action.type === 'CHANGE-NEW-DIALOG-TEXT') {
+            this._state.dialogsPage.newDialogText = action.newText;
+            this._callSubscriber();
+        }
+    },
+
+}
+
+export default store;
+//@ts-ignore
+window.store = store;

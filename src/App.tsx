@@ -5,13 +5,13 @@ import Navbar from "./components/Navbar/Navbar";
 import Dialogs from "./components/Dialogs/Dialogs";
 import Profile from "./components/Profile/Profile";
 import {Route} from "react-router-dom";
-import {StateType} from "./redux/state";
+import {DispatchActionType, StateType} from "./redux/state";
 
 
 
 type AppPropsType ={
     state: StateType
-    dispatch: (action: any) => void
+    dispatch: (action: DispatchActionType) => void
 }
 
 const App = (props: AppPropsType) => {

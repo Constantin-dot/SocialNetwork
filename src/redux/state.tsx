@@ -1,5 +1,10 @@
 import {v1} from "uuid";
 
+const ADD_POST = 'ADD-POST';
+const CHANGE_NEW_POST_TEXT = 'CHANGE-NEW-POST-TEXT';
+const ADD_MESSAGE = 'ADD-MESSAGE';
+const CHANGE_NEW_DIALOG_TEXT = 'CHANGE-NEW-DIALOG-TEXT';
+
 export type PostType = {
     id: string
     message: string
@@ -38,6 +43,11 @@ export type StoreType = {
     getState: () => StateType,
     subscribe:(observer: any) => void,
     dispatch:(action: any) => void,
+}
+
+export type DispatchActionType = {
+    type: string
+    newText?: string
 }
 
 let store: StoreType = {
@@ -107,6 +117,18 @@ let store: StoreType = {
     },
 
 }
+
+export const addPostActionCreator = () => ({type: ADD_POST})
+
+export const newTextChangeHandlerActionCreator = (text: string) => ({
+        type: CHANGE_NEW_POST_TEXT, newText: text
+})
+
+export const addMessageActionCreator = () => ({type: ADD_MESSAGE})
+
+export const newMessageChangeHandlerActionCreator = (text: string) => ({
+        type: CHANGE_NEW_DIALOG_TEXT, newText: text
+})
 
 export default store;
 //@ts-ignore

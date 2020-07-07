@@ -1,7 +1,7 @@
 import React from "react";
 
 import classes from "./Friends.module.css";
-import {DialogsPageType, DialogType} from "../../redux/state";
+import {DialogsPageType, DialogType} from "../../redux/store";
 
 
 type PropsFriendsType = {

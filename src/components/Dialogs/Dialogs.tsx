@@ -3,17 +3,16 @@ import classes from "./Dialogs.module.css";
 import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";
 import {
-    addMessageActionCreator,
     DialogsPageType,
     DialogType,
-    DispatchActionType,
+    ActionType,
     MessageType,
-    newMessageChangeHandlerActionCreator
-} from "../../redux/state";
+} from "../../redux/store";
+import {addMessageActionCreator, newMessageChangeHandlerActionCreator} from "../../redux/dialogsReducer";
 
 type PropsDialogsType = {
     dialogsPage: DialogsPageType
-    dispatch: (action: DispatchActionType) => void
+    dispatch: (action: ActionType) => void
     newDialogsText: string
 }
 
@@ -43,6 +42,7 @@ const Dialogs = (props:PropsDialogsType) => {
                     <textarea
                         onChange={newTextChangeHandler}
                         value={props.newDialogsText}
+                        placeholder={'Enter your message'}
                     />
                 </div>
                 <div>

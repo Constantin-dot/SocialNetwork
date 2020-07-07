@@ -2,7 +2,7 @@ import React from "react";
 import classes from "./Navbar.module.css";
 import {NavLink} from "react-router-dom";
 import Friends from "../Friends/Friends";
-import {DialogsPageType} from "../../redux/state";
+import {DialogsPageType} from "../../redux/store";
 
 
 type NavbarPropsType = {

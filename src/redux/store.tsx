@@ -1,9 +1,6 @@
 import {v1} from "uuid";
-
-const ADD_POST = 'ADD-POST';
-const CHANGE_NEW_POST_TEXT = 'CHANGE-NEW-POST-TEXT';
-const ADD_MESSAGE = 'ADD-MESSAGE';
-const CHANGE_NEW_DIALOG_TEXT = 'CHANGE-NEW-DIALOG-TEXT';
+import profileReducer from "./profileReducer";
+import dialogsReducer from "./dialogsReducer";
 
 export type PostType = {
     id: string
@@ -45,7 +42,7 @@ export type StoreType = {
     dispatch:(action: any) => void,
 }
 
-export type DispatchActionType = {
+export type ActionType = {
     type: string
     newText?: string
 }
@@ -89,46 +86,14 @@ let store: StoreType = {
         this._callSubscriber = observer;
     },
 
-    dispatch(action) {
-        if (action.type === 'ADD-POST') {
-            const newPost: PostType = {
-                id: v1(),
-                message: this._state.profilePage.newPostText,
-                likeCount: 0,
-            };
-            this._state.profilePage.posts.push(newPost);
-            this._state.profilePage.newPostText = '';
-            this._callSubscriber();
-        } else if (action.type === 'CHANGE-NEW-POST-TEXT') {
-            this._state.profilePage.newPostText = action.newText;
-            this._callSubscriber();
-        } else if (action.type === 'ADD-MESSAGE') {
-            const newMessage: MessageType = {
-                id: v1(),
-                message: this._state.dialogsPage.newDialogText,
-            };
-            this._state.dialogsPage.messages.push(newMessage);
-            this._state.dialogsPage.newDialogText = '';
-            this._callSubscriber();
-        } else if (action.type === 'CHANGE-NEW-DIALOG-TEXT') {
-            this._state.dialogsPage.newDialogText = action.newText;
-            this._callSubscriber();
-        }
+    dispatch(action: ActionType) {
+        this._state.profilePage = profileReducer(this._state.profilePage, action);
+        this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action);
+
+        this._callSubscriber();
     },
 
 }
-
-export const addPostActionCreator = () => ({type: ADD_POST})
-
-export const newTextChangeHandlerActionCreator = (text: string) => ({
-        type: CHANGE_NEW_POST_TEXT, newText: text
-})
-
-export const addMessageActionCreator = () => ({type: ADD_MESSAGE})
-
-export const newMessageChangeHandlerActionCreator = (text: string) => ({
-        type: CHANGE_NEW_DIALOG_TEXT, newText: text
-})
 
 export default store;
 //@ts-ignore

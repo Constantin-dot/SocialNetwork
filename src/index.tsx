@@ -1,6 +1,6 @@
 import './index.css';
 import * as serviceWorker from './serviceWorker';
-import store, {StateType} from "./redux/state";
+import store, {StateType} from "./redux/store";
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';

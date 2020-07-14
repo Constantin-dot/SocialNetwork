@@ -1,12 +1,9 @@
 import React from "react";
 import classes from "./Navbar.module.css";
 import {NavLink} from "react-router-dom";
-import Friends from "../Friends/Friends";
-import {DialogsPageType} from "../../redux/store";
-
 
 type NavbarPropsType = {
-    dialogsPage: DialogsPageType
+
 }
 
 function Navbar(props:NavbarPropsType)  {
@@ -27,10 +24,10 @@ function Navbar(props:NavbarPropsType)  {
             <div className={classes.item}>
                 <NavLink to="/settings" activeClassName={classes.active}>Settings</NavLink>
             </div>
-            <div className={classes.item}>
-                <NavLink to="/friends" activeClassName={classes.active}>Friends</NavLink>
-                <Friends dialogsPage={props.dialogsPage}/>
-            </div>
+            {/*<div className={classes.item}>*/}
+            {/*    <NavLink to="/friends" activeClassName={classes.active}>Friends</NavLink>*/}
+            {/*    <Friends dialogsPage={props.dialogsPage}/>*/}
+            {/*</div>*/}
         </nav>
     )
 }

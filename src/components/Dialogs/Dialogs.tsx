@@ -5,30 +5,27 @@ import Message from "./Message/Message";
 import {
     DialogsPageType,
     DialogType,
-    ActionType,
     MessageType,
 } from "../../redux/store";
-import {addMessageActionCreator, newMessageChangeHandlerActionCreator} from "../../redux/dialogsReducer";
+
 
 type PropsDialogsType = {
     dialogsPage: DialogsPageType
-    dispatch: (action: ActionType) => void
-    newDialogsText: string
+    addMessage: () => void
+    newTextChangeHandler: (text: string) => void
 }
 
 const Dialogs = (props:PropsDialogsType) => {
-
     let dialogsElements = props.dialogsPage.dialogs.map( (d:DialogType) => <DialogItem key={d.id} id={d.id} name={d.name}/>);
     let messagesElements = props.dialogsPage.messages.map((m:MessageType) => <Message key={m.id} message={m.message}/>)
 
     let addMessage = () => {
-        props.dispatch(addMessageActionCreator());
+        props.addMessage();
     }
 
     let newTextChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
         let text = e.currentTarget.value;
-        let action = newMessageChangeHandlerActionCreator(text);
-        props.dispatch(action);
+        props.newTextChangeHandler(text);
     }
 
     return (
@@ -41,7 +38,7 @@ const Dialogs = (props:PropsDialogsType) => {
                 <div>
                     <textarea
                         onChange={newTextChangeHandler}
-                        value={props.newDialogsText}
+                        value={props.dialogsPage.newDialogText}
                         placeholder={'Enter your message'}
                     />
                 </div>

@@ -2,6 +2,11 @@ import {v1} from "uuid";
 import profileReducer from "./profileReducer";
 import dialogsReducer from "./dialogsReducer";
 
+export const ADD_MESSAGE = 'ADD-MESSAGE';
+export const CHANGE_NEW_DIALOG_TEXT = 'CHANGE-NEW-DIALOG-TEXT';
+export const ADD_POST = 'ADD-POST';
+export const CHANGE_NEW_POST_TEXT = 'CHANGE-NEW-POST-TEXT';
+
 export type PostType = {
     id: string
     message: string
@@ -42,10 +47,25 @@ export type StoreType = {
     dispatch:(action: any) => void,
 }
 
-export type ActionType = {
-    type: string
-    newText?: string
+export type ChangeDialogActionType  = {
+    type: typeof CHANGE_NEW_DIALOG_TEXT
+    newText: string
 }
+export type AddMessageActionType  = {
+    type: typeof ADD_MESSAGE
+    newText: string
+}
+
+export type ChangePostActionType  = {
+    type: typeof CHANGE_NEW_POST_TEXT
+    newText: string
+}
+export type AddPostActionType  = {
+    type: typeof ADD_POST
+    newText: string
+}
+
+export type ActionType = ChangeDialogActionType | AddMessageActionType | ChangePostActionType | AddPostActionType
 
 let store: StoreType = {
     _state:  {

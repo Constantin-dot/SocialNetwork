@@ -1,3 +1,4 @@
+import {v1} from "uuid";
 import {
     PostType,
     ProfilePageType,
@@ -7,7 +8,6 @@ import {
     ADD_POST,
     CHANGE_NEW_POST_TEXT
 } from "./store";
-import {v1} from "uuid";
 
 const initialState = {
     posts: [
@@ -18,24 +18,29 @@ const initialState = {
 };
 const profileReducer = (state: ProfilePageType = initialState, action: ActionType) => {
     switch (action.type) {
-        case ADD_POST:
+        case ADD_POST: {
             const newPost: PostType = {
                 id: v1(),
                 message: state.newPostText,
                 likeCount: 0,
             };
-            state.posts.push(newPost);
-            state.newPostText = '';
-            return state;
-        case CHANGE_NEW_POST_TEXT:
-                state.newPostText = action.newText;
-            return state;
+            let stateCopy = {...state};
+            stateCopy.posts = [...state.posts];
+            stateCopy.posts.push(newPost);
+            stateCopy.newPostText = '';
+            return stateCopy;
+        }
+        case CHANGE_NEW_POST_TEXT: {
+            let stateCopy = {...state};
+            stateCopy.newPostText = action.newText;
+            return stateCopy;
+        }
         default:
             return state;
     }
 }
 
-export const addPostActionCreator = (text: string):AddPostActionType => ({type: ADD_POST, newText: text})
+export const addPostActionCreator = ():AddPostActionType => ({type: ADD_POST})
 
 export const newTextChangeHandlerActionCreator = (text: string): ChangePostActionType => ({
     type: CHANGE_NEW_POST_TEXT, newText: text

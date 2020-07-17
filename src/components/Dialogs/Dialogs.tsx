@@ -2,18 +2,10 @@ import React, {ChangeEvent} from "react";
 import classes from "./Dialogs.module.css";
 import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";
-import {
-    DialogsPageType,
-    DialogType,
-    MessageType,
-} from "../../redux/store";
+import {DialogType, MessageType} from "../../redux/store";
+import {MapDispatchPropsType, MapStatePropsType} from "./DialogsContainer";
 
-
-type PropsDialogsType = {
-    dialogsPage: DialogsPageType
-    addMessage: () => void
-    newTextChangeHandler: (text: string) => void
-}
+type PropsDialogsType = MapDispatchPropsType & MapStatePropsType;
 
 const Dialogs = (props:PropsDialogsType) => {
     let dialogsElements = props.dialogsPage.dialogs.map( (d:DialogType) => <DialogItem key={d.id} id={d.id} name={d.name}/>);

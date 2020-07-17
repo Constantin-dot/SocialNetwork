@@ -53,7 +53,6 @@ export type ChangeDialogActionType  = {
 }
 export type AddMessageActionType  = {
     type: typeof ADD_MESSAGE
-    newText: string
 }
 
 export type ChangePostActionType  = {
@@ -62,7 +61,6 @@ export type ChangePostActionType  = {
 }
 export type AddPostActionType  = {
     type: typeof ADD_POST
-    newText: string
 }
 
 export type ActionType = ChangeDialogActionType | AddMessageActionType | ChangePostActionType | AddPostActionType

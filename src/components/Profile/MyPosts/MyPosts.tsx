@@ -1,14 +1,9 @@
 import React, {ChangeEvent} from "react";
 import classes from "./MyPosts.module.css";
 import Post from "./Post/Post";
-import { PostType} from "../../../redux/store";
+import {MapStatePropsType, MapDispatchPropsType} from "./MyPostsContainer";
 
-type PropsType = {
-    posts:Array<PostType>
-    updateNewPostText: (text: string) => void
-    addPost: () => void
-    newPostText: string
-}
+type PropsType = MapStatePropsType & MapDispatchPropsType;
 
 const MyPosts = (props: PropsType) => {
 

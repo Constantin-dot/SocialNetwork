@@ -6,7 +6,7 @@ import {
     AddMessageActionType,
     ChangeDialogActionType,
     ADD_MESSAGE, CHANGE_NEW_DIALOG_TEXT
-} from "./store";
+} from "./usingTypes";
 
 const  initialState = {
     messages: [
@@ -25,23 +25,23 @@ const  initialState = {
     newDialogText: '',
 }
 const dialogsReducer = (state: DialogsPageType = initialState, action: ActionType) => {
+
     switch (action.type) {
-        case ADD_MESSAGE: {
+        case ADD_MESSAGE:
             const newMessage: MessageType = {
                 id: v1(),
                 message: state.newDialogText,
             };
-            let stateCopy = {...state};
-            stateCopy.messages = [...state.messages];
-            stateCopy.messages.push(newMessage);
-            stateCopy.newDialogText = '';
-            return stateCopy;
-        }
-        case CHANGE_NEW_DIALOG_TEXT: {
-            let stateCopy = {...state};
-            stateCopy.newDialogText = action.newText;
-            return stateCopy;
-        }
+            return {
+                ...state,
+                newDialogText: '',
+                messages: [...state.messages, newMessage]
+            };
+        case CHANGE_NEW_DIALOG_TEXT:
+            return {
+                ...state,
+                newDialogText: action.newText
+            };
         default:
             return state;
     }

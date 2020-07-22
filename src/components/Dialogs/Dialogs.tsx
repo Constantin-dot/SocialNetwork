@@ -2,7 +2,7 @@ import React, {ChangeEvent} from "react";
 import classes from "./Dialogs.module.css";
 import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";
-import {DialogType, MessageType} from "../../redux/store";
+import {DialogType, MessageType} from "../../redux/usingTypes";
 import {MapDispatchPropsType, MapStatePropsType} from "./DialogsContainer";
 
 type PropsDialogsType = MapDispatchPropsType & MapStatePropsType;

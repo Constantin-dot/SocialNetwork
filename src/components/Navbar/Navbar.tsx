@@ -24,10 +24,10 @@ function Navbar(props:NavbarPropsType)  {
             <div className={classes.item}>
                 <NavLink to="/settings" activeClassName={classes.active}>Settings</NavLink>
             </div>
-            {/*<div className={classes.item}>*/}
-            {/*    <NavLink to="/friends" activeClassName={classes.active}>Friends</NavLink>*/}
+            <div className={classes.item}>
+                <NavLink to="/users" activeClassName={classes.active}>Users</NavLink>
             {/*    <Friends dialogsPage={props.dialogsPage}/>*/}
-            {/*</div>*/}
+            </div>
         </nav>
     )
 }

@@ -2,7 +2,7 @@ import {addMessageActionCreator, newMessageChangeHandlerActionCreator} from "../
 import Dialogs from "./Dialogs";
 import {connect} from "react-redux";
 import {RootState} from "../../redux/redux-store";
-import {DialogsPageType} from "../../redux/store";
+import {DialogsPageType} from "../../redux/usingTypes";
 import {Dispatch} from "redux";
 
 

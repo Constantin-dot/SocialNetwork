@@ -2,7 +2,7 @@ import {addPostActionCreator, newTextChangeHandlerActionCreator} from "../../../
 import MyPosts from "./MyPosts";
 import {connect} from "react-redux";
 import {RootState} from "../../../redux/redux-store";
-import {PostType} from "../../../redux/store";
+import {PostType} from "../../../redux/usingTypes";
 import {Dispatch} from "redux";
 
 

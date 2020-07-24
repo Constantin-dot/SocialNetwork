@@ -71,7 +71,7 @@ export type UnfollowActionType  = {
 }
 export type SetUsersActionType  = {
     type: typeof SET_USERS
-    user: UserType
+    users: Array<UserType>
 }
 
 export type ActionType = ChangeDialogActionType | AddMessageActionType |

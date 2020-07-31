@@ -1,4 +1,4 @@
-import {addMessageActionCreator, newMessageChangeHandlerActionCreator} from "../../redux/dialogsReducer";
+import {addMessageActionCreator, newMessageChangeHandlerActionCreator} from "../../redux/dialogs-reducer";
 import Dialogs from "./Dialogs";
 import {connect} from "react-redux";
 import {RootState} from "../../redux/redux-store";

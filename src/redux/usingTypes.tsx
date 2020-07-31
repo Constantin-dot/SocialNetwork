@@ -1,4 +1,4 @@
-import {FOLLOW, SET_USERS, UNFOLLOW, UserType} from "./users-reducer";
+import {FOLLOW, SET_CURRENT_PAGE, SET_TOTAL_USERS_COUNT, SET_USERS, UNFOLLOW, UserType} from "./users-reducer";
 
 export const ADD_MESSAGE = 'ADD-MESSAGE';
 export const CHANGE_NEW_DIALOG_TEXT = 'CHANGE-NEW-DIALOG-TEXT';
@@ -74,7 +74,17 @@ export type SetUsersActionType  = {
     users: Array<UserType>
 }
 
+export type SetCurrentPageActionType  = {
+    type: typeof SET_CURRENT_PAGE
+    currentPage: number
+}
+
+export type SetTotalUsersCountActionType = {
+    type: typeof SET_TOTAL_USERS_COUNT
+    totalUsersCount: number
+}
+
 export type ActionType = ChangeDialogActionType | AddMessageActionType |
     ChangePostActionType | AddPostActionType |
     FollowActionType | UnfollowActionType |
-    SetUsersActionType
+    SetUsersActionType | SetCurrentPageActionType | SetTotalUsersCountActionType

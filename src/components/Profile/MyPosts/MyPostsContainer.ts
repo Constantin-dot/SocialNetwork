@@ -1,4 +1,4 @@
-import {addPostActionCreator, newTextChangeHandlerActionCreator} from "../../../redux/profileReducer";
+import {addPostActionCreator, newTextChangeHandlerActionCreator} from "../../../redux/profile-reducer";
 import MyPosts from "./MyPosts";
 import {connect} from "react-redux";
 import {RootState} from "../../../redux/redux-store";

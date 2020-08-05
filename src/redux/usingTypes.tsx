@@ -1,4 +1,12 @@
-import {FOLLOW, SET_CURRENT_PAGE, SET_TOTAL_USERS_COUNT, SET_USERS, UNFOLLOW, UserType} from "./users-reducer";
+import {
+    FOLLOW,
+    SET_CURRENT_PAGE,
+    SET_TOTAL_USERS_COUNT,
+    SET_USERS,
+    SET_TOGGLE_IS_FETCHING,
+    UNFOLLOW,
+    UserType
+} from "./users-reducer";
 
 export const ADD_MESSAGE = 'ADD-MESSAGE';
 export const CHANGE_NEW_DIALOG_TEXT = 'CHANGE-NEW-DIALOG-TEXT';
@@ -84,7 +92,13 @@ export type SetTotalUsersCountActionType = {
     totalUsersCount: number
 }
 
+export type SetToggleIsFetchingActionType = {
+    type: typeof SET_TOGGLE_IS_FETCHING
+    isFetching: boolean
+}
+
 export type ActionType = ChangeDialogActionType | AddMessageActionType |
     ChangePostActionType | AddPostActionType |
     FollowActionType | UnfollowActionType |
-    SetUsersActionType | SetCurrentPageActionType | SetTotalUsersCountActionType
+    SetUsersActionType | SetCurrentPageActionType |
+    SetTotalUsersCountActionType | SetToggleIsFetchingActionType

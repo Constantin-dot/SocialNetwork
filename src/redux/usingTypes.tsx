@@ -40,18 +40,18 @@ export type DialogsPageType = {
     newDialogText: string
 }
 
-export type StateType = {
-    profilePage: ProfilePageType
-    dialogsPage: DialogsPageType
-}
+// export type StateType = {
+//     profilePage: ProfilePageType
+//     dialogsPage: DialogsPageType
+// }
 
-export type StoreType = {
-    _state: StateType,
-    _callSubscriber: () => void,
-    getState: () => StateType,
-    subscribe:(observer: any) => void,
-    dispatch:(action: any) => void,
-}
+// export type StoreType = {
+//     _state: StateType,
+//     _callSubscriber: () => void,
+//     getState: () => StateType,
+//     subscribe:(observer: any) => void,
+//     dispatch:(action: any) => void,
+// }
 
 export type ChangeDialogActionType  = {
     type: typeof CHANGE_NEW_DIALOG_TEXT

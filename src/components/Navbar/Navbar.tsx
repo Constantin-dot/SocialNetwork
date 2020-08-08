@@ -2,11 +2,11 @@ import React from "react";
 import classes from "./Navbar.module.css";
 import {NavLink} from "react-router-dom";
 
-type NavbarPropsType = {
+// type NavbarPropsType = {
+//
+// }
 
-}
-
-function Navbar(props:NavbarPropsType)  {
+function Navbar()  {
     return (
         <nav className={classes.nav}>
             <div className={classes.item}>
@@ -26,7 +26,6 @@ function Navbar(props:NavbarPropsType)  {
             </div>
             <div className={classes.item}>
                 <NavLink to="/users" activeClassName={classes.active}>Users</NavLink>
-            {/*    <Friends dialogsPage={props.dialogsPage}/>*/}
             </div>
         </nav>
     )

@@ -13,6 +13,23 @@ import axios from "axios";
 import Users from "./Users";
 import Preloader from "../common/Preloader/Preloader";
 
+export type MapStatePropsType = {
+    users:  Array<UserType>,
+    pageSize: number,
+    totalUsersCount: number,
+    currentPage: number,
+    isFetching: boolean,
+}
+
+export type MapDispatchPropsType = {
+    follow: (id: string) => void
+    unfollow: (id: string) => void
+    setUsers: (users: Array<UserType>) => void
+    setCurrentPage: (pageNumber: number) => void
+    setTotalUsersCount: (totalCount: number) => void
+    setToggleIsFetching: (isFetching: boolean) => void
+}
+
 type PropsUsersApiComponentType = MapStatePropsType & MapDispatchPropsType;
 
 class UsersApiComponent extends React.Component<PropsUsersApiComponentType> {
@@ -50,24 +67,6 @@ class UsersApiComponent extends React.Component<PropsUsersApiComponentType> {
             />
         </>
     }
-}
-
-
-export type MapStatePropsType = {
-    users:  Array<UserType>,
-    pageSize: number,
-    totalUsersCount: number,
-    currentPage: number,
-    isFetching: boolean,
-}
-
-export type MapDispatchPropsType = {
-    follow: (id: string) => void
-    unfollow: (id: string) => void
-    setUsers: (users: Array<UserType>) => void
-    setCurrentPage: (pageNumber: number) => void
-    setTotalUsersCount: (totalCount: number) => void
-    setToggleIsFetching: (isFetching: boolean) => void
 }
 
 let mapStateToProps = (state: RootState):MapStatePropsType => {

@@ -1,12 +1,34 @@
 import {v1} from "uuid";
-import {
-    DialogsPageType,
-    ActionType,
-    MessageType,
-    AddMessageActionType,
-    ChangeDialogActionType,
-    ADD_MESSAGE, CHANGE_NEW_DIALOG_TEXT
-} from "./usingTypes";
+
+export const ADD_MESSAGE = 'ADD-MESSAGE';
+export const CHANGE_NEW_DIALOG_TEXT = 'CHANGE-NEW-DIALOG-TEXT';
+
+export type MessageType = {
+    id: string
+    message: string
+}
+
+export type DialogType = {
+    id: string
+    name: string
+}
+
+export type DialogsPageType = {
+    messages: Array<MessageType>
+    dialogs: Array<DialogType>
+    newDialogText: string
+}
+
+
+export type ChangeDialogActionType  = {
+    type: typeof CHANGE_NEW_DIALOG_TEXT
+    newText: string
+}
+export type AddMessageActionType  = {
+    type: typeof ADD_MESSAGE
+}
+
+type ActionType = ChangeDialogActionType | AddMessageActionType;
 
 const  initialState = {
     messages: [

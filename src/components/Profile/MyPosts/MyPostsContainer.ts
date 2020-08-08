@@ -1,10 +1,8 @@
-import {addPostActionCreator, newTextChangeHandlerActionCreator} from "../../../redux/profile-reducer";
+import {addPostActionCreator, newTextChangeHandlerActionCreator, PostType} from "../../../redux/profile-reducer";
 import MyPosts from "./MyPosts";
 import {connect} from "react-redux";
 import {RootState} from "../../../redux/redux-store";
-import {PostType} from "../../../redux/usingTypes";
 import {Dispatch} from "redux";
-
 
 export type MapStatePropsType = {
     posts: Array<PostType>

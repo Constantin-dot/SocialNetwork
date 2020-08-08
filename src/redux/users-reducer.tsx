@@ -1,13 +1,3 @@
-import {
-    ActionType,
-    FollowActionType,
-    SetCurrentPageActionType,
-    SetToggleIsFetchingActionType,
-    SetTotalUsersCountActionType,
-    SetUsersActionType,
-    UnfollowActionType
-} from "./usingTypes";
-
 export const FOLLOW = 'FOLLOW';
 export const UNFOLLOW = 'UNFOLLOW';
 export const SET_USERS = 'SET-USERS';
@@ -19,6 +9,7 @@ export type LocationType = {
     city: string
     country: string
 }
+
 export type PhotosType = {
     small: string
     large: string
@@ -40,6 +31,38 @@ type InitialStateType = {
     currentPage: number,
     isFetching: boolean,
 }
+
+export type FollowActionType  = {
+    type: typeof FOLLOW
+    id: string
+}
+export type UnfollowActionType  = {
+    type: typeof UNFOLLOW
+    id: string
+}
+export type SetUsersActionType  = {
+    type: typeof SET_USERS
+    users: Array<UserType>
+}
+
+export type SetCurrentPageActionType  = {
+    type: typeof SET_CURRENT_PAGE
+    currentPage: number
+}
+
+export type SetTotalUsersCountActionType = {
+    type: typeof SET_TOTAL_USERS_COUNT
+    totalUsersCount: number
+}
+
+export type SetToggleIsFetchingActionType = {
+    type: typeof SET_TOGGLE_IS_FETCHING
+    isFetching: boolean
+}
+
+type ActionType = FollowActionType | UnfollowActionType |
+    SetUsersActionType | SetCurrentPageActionType |
+    SetTotalUsersCountActionType | SetToggleIsFetchingActionType;
 
 const initialState = {
     users: [],

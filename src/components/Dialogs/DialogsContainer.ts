@@ -1,8 +1,11 @@
-import {addMessageActionCreator, newMessageChangeHandlerActionCreator} from "../../redux/dialogs-reducer";
+import {
+    addMessageActionCreator,
+    DialogsPageType,
+    newMessageChangeHandlerActionCreator
+} from "../../redux/dialogs-reducer";
 import Dialogs from "./Dialogs";
 import {connect} from "react-redux";
 import {RootState} from "../../redux/redux-store";
-import {DialogsPageType} from "../../redux/usingTypes";
 import {Dispatch} from "redux";
 
 

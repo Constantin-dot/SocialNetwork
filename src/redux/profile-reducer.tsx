@@ -1,4 +1,7 @@
 import {v1} from "uuid";
+import {usersApi} from "../api/api";
+import {ThunkAction, ThunkDispatch} from "redux-thunk";
+import {RootState} from "./redux-store";
 
 export const ADD_POST = 'ADD-POST';
 export const CHANGE_NEW_POST_TEXT = 'CHANGE-NEW-POST-TEXT';
@@ -109,5 +112,19 @@ export const newTextChangeHandlerActionCreator = (text: string): ChangePostActio
 export const setUserProfile = (profile: any): SetUserProfileActionType => ({
     type: SET_USER_PROFILE, profile
 })
+
+type ThunkType = ThunkAction<void, RootState, unknown, ActionType>
+
+export const getUserProfile = (userId: string | undefined): ThunkType => {
+    return (dispatch: ThunkDispatch< RootState , unknown , ActionType >) => {
+        usersApi.getProfile(userId).then(data => {
+            dispatch(setUserProfile(data));
+        });
+    }
+}
+
+
+
+
 
 export default profileReducer;

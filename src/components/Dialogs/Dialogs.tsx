@@ -4,6 +4,7 @@ import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";
 import {MapDispatchPropsType, MapStatePropsType} from "./DialogsContainer";
 import {DialogType, MessageType} from "../../redux/dialogs-reducer";
+import {Redirect} from "react-router-dom";
 
 type PropsDialogsType = MapDispatchPropsType & MapStatePropsType;
 
@@ -19,6 +20,8 @@ const Dialogs = (props:PropsDialogsType) => {
         let text = e.currentTarget.value;
         props.newTextChangeHandler(text);
     }
+
+    if (!props.isAuth) return <Redirect to={'/login'}/>;
 
     return (
         <div className={classes.dialogs}>

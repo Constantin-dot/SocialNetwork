@@ -7,7 +7,6 @@ import {ProfileType} from "../../redux/profile-reducer";
 
 type ProfilePropsType = {
     profile: ProfileType | null
-    // setUserProfile:(profile: ProfileType | null) => void
 }
 
 const Profile = (props: ProfilePropsType) => {

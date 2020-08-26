@@ -10,6 +10,7 @@
 
 .loginBlock {
     float: right;
+    margin: 30px;
 }
 
 .loginBlock a {

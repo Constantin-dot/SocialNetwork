@@ -1,7 +1,6 @@
 import {v1} from "uuid";
 
 export const ADD_MESSAGE = 'ADD-MESSAGE';
-export const CHANGE_NEW_DIALOG_TEXT = 'CHANGE-NEW-DIALOG-TEXT';
 
 export type MessageType = {
     id: string
@@ -16,19 +15,14 @@ export type DialogType = {
 export type DialogsPageType = {
     messages: Array<MessageType>
     dialogs: Array<DialogType>
-    newDialogText: string
 }
 
-
-export type ChangeDialogActionType  = {
-    type: typeof CHANGE_NEW_DIALOG_TEXT
-    newText: string
-}
 export type AddMessageActionType  = {
     type: typeof ADD_MESSAGE
+    newMessageBody: string
 }
 
-type ActionType = ChangeDialogActionType | AddMessageActionType;
+type ActionType = AddMessageActionType;
 
 const  initialState = {
     messages: [
@@ -44,7 +38,6 @@ const  initialState = {
         {id: v1(), name: 'Viktor'},
         {id: v1(), name: 'Valera'},
     ],
-    newDialogText: '',
 }
 const dialogsReducer = (state: DialogsPageType = initialState, action: ActionType) => {
 
@@ -52,27 +45,19 @@ const dialogsReducer = (state: DialogsPageType = initialState, action: ActionTyp
         case ADD_MESSAGE:
             const newMessage: MessageType = {
                 id: v1(),
-                message: state.newDialogText,
+                message: action.newMessageBody,
             };
             return {
                 ...state,
-                newDialogText: '',
                 messages: [...state.messages, newMessage]
-            };
-        case CHANGE_NEW_DIALOG_TEXT:
-            return {
-                ...state,
-                newDialogText: action.newText
             };
         default:
             return state;
     }
 }
 
-export const addMessageActionCreator = ():AddMessageActionType => ({type: ADD_MESSAGE})
-
-export const newMessageChangeHandlerActionCreator = (text: string): ChangeDialogActionType => ({
-    type: CHANGE_NEW_DIALOG_TEXT, newText: text
+export const addMessageActionCreator = (newMessageBody: string):AddMessageActionType => ({
+    type: ADD_MESSAGE, newMessageBody
 })
 
 export default dialogsReducer;

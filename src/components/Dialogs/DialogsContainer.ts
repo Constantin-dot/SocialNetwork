@@ -9,7 +9,6 @@ import {compose, Dispatch} from "redux";
 import React from "react";
 // import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 
-
 export type MapStatePropsType = {
     dialogsPage: DialogsPageType
 }
@@ -17,7 +16,6 @@ export type MapStatePropsType = {
 export type MapDispatchPropsType = {
     addMessage: (newMessageBody: string) => void
 }
-
 
 let mapStateToProps = (state: RootState) => {
     return {
@@ -34,6 +32,6 @@ let mapDispatchToProps = (dispatch: Dispatch) => {
 }
 
 export default compose<React.ComponentType>(
-    connect(mapStateToProps, mapDispatchToProps),
+    connect(mapStateToProps, mapDispatchToProps)
     // withAuthRedirect
 )(Dialogs);

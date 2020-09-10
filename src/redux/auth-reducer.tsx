@@ -52,11 +52,9 @@ export const setUserData = (payload: UserDataType, isAuth: boolean): SetUserData
 
 type ThunkType = ThunkAction<void, RootState, unknown, ActionType|FormAction>
 
-
-
 export const getUserData = (): ThunkType => {
     return (dispatch: ThunkDispatch< RootState , unknown , ActionType >) => {
-        authApi.me().then(data => {
+        return authApi.me().then(data => {
             if (data.resultCode === 0) {
                 let {id, login, email} = data.data;
                 dispatch(setUserData({id, login, email}, true));

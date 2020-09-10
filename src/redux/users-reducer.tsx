@@ -53,7 +53,7 @@ export type SetUsersActionType  = {
 
 export type SetCurrentPageActionType  = {
     type: typeof SET_CURRENT_PAGE
-    currentPage: number
+    page: number
 }
 
 export type SetTotalUsersCountActionType = {
@@ -112,7 +112,7 @@ const usersReducer = (state: InitialStateType = initialState, action: ActionType
             return {...state, users: action.users};
         }
         case SET_CURRENT_PAGE: {
-            return {...state, currentPage: action.currentPage};
+            return {...state, currentPage: action.page};
         }
         case SET_TOTAL_USERS_COUNT: {
             return {...state, totalUsersCount: action.totalUsersCount};
@@ -142,8 +142,8 @@ export const unfollowSuccess = (userId: string): UnfollowSuccessActionType => (
 export const setUsers = (users: Array<UserType>): SetUsersActionType => (
     {type: SET_USERS, users})
 
-export const setCurrentPage = (currentPage: number ): SetCurrentPageActionType => (
-    {type: SET_CURRENT_PAGE, currentPage})
+export const setCurrentPage = (page: number ): SetCurrentPageActionType => (
+    {type: SET_CURRENT_PAGE, page})
 
 export const setTotalUsersCount = (totalUsersCount: number ): SetTotalUsersCountActionType => (
     {type: SET_TOTAL_USERS_COUNT, totalUsersCount})
@@ -156,10 +156,11 @@ export const toggleIsFollowingProgress = (isFetching: boolean, userId: string): 
 
 type ThunkType = ThunkAction<void, RootState, unknown, ActionType>
 
-export const getUsers = (currentPage: number, pageSize: number): ThunkType => {
+export const requestUsers = (page: number, pageSize: number): ThunkType => {
     return (dispatch: ThunkDispatch< RootState , unknown , ActionType >) => {
         dispatch(setToggleIsFetching(true));
-        usersApi.getUsers(currentPage, pageSize).then(data => {
+        dispatch(setCurrentPage(page));
+        usersApi.getUsers(page, pageSize).then(data => {
             dispatch(setToggleIsFetching(false));
             dispatch(setUsers(data.items));
             dispatch(setTotalUsersCount(data.totalCount));

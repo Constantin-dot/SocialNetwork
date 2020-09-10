@@ -4,12 +4,9 @@ import {RootState} from "../redux/redux-store";
 import {connect} from "react-redux";
 import {compose} from "redux";
 
+
 type MapStatePropsType = {
     isAuth: boolean
-}
-
-type ComponentType = {
-
 }
 
 let mapStateToProps = (state: RootState):MapStatePropsType => {
@@ -26,7 +23,7 @@ export const withAuthRedirect = (Component: React.ComponentType) => {
         }
     }
     compose<React.ComponentType>(
-        connect(mapStateToProps)
+        connect(mapStateToProps),
     )(RedirectComponent);
     // let ConnectedAuthRedirectComponent = connect(mapStateToPropsForRedirect)(RedirectComponent);
     //

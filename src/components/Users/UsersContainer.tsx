@@ -8,7 +8,7 @@ import {
 } from "../../redux/users-reducer";
 import React from "react";
 import Users from "./Users";
-import Preloader from "../common/Preloader/Preloader";
+import Preloader from "../common/preloader/Preloader";
 // import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import {compose} from "redux";
 import {
@@ -38,10 +38,12 @@ type PropsUsersContainerType = MapStatePropsType & MapDispatchPropsType;
 
 class UsersContainer extends React.Component<PropsUsersContainerType> {
     componentDidMount() {
-        this.props.requestUsers(this.props.currentPage, this.props.pageSize);
+        const {currentPage, pageSize} = this.props
+        this.props.requestUsers(currentPage, pageSize);
     }
     onPageChange = (pageNumber: number) => {
-        this.props.requestUsers(pageNumber, this.props.pageSize);
+        const {pageSize} = this.props
+        this.props.requestUsers(pageNumber, pageSize);
     }
 
     render() {
@@ -61,16 +63,6 @@ class UsersContainer extends React.Component<PropsUsersContainerType> {
     }
 }
 
-// let mapStateToProps = (state: RootState):MapStatePropsType => {
-//     return {
-//         users: state.usersPage.users,
-//         pageSize: state.usersPage.pageSize,
-//         totalUsersCount: state.usersPage.totalUsersCount,
-//         currentPage: state.usersPage.currentPage,
-//         isFetching: state.usersPage.isFetching,
-//         followingInProgress: state.usersPage.followingInProgress,
-//     }
-// }
 let mapStateToProps = (state: RootState):MapStatePropsType => {
     return {
         users: getUsers(state),

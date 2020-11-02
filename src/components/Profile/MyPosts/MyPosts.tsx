@@ -13,7 +13,7 @@ type FormDataType = {
 
 type PropsType = MapStatePropsType & MapDispatchPropsType;
 
-const MyPosts = (props: PropsType) => {
+const MyPosts = React.memo((props: PropsType) => {
 
     let postsElements = props.posts.map((p) =>
         <Post
@@ -37,7 +37,7 @@ const MyPosts = (props: PropsType) => {
             </div>
         </div>
     )
-}
+})
 
 let maxLength10 = maxLengthCreator(10);
 

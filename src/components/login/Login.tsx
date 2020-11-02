@@ -1,10 +1,10 @@
 import React from "react";
-import {Field, reduxForm, InjectedFormProps } from "redux-form";
-import {Input} from "../common/formsControls/FormsControls";
+import {reduxForm, InjectedFormProps} from "redux-form";
+import {Input, createField} from "../common/formsControls/FormsControls";
 import {requiredField} from "../../utils/validators/validators";
 import {connect} from "react-redux";
 import {AuthDataType, login} from "../../redux/auth-reducer";
-import { Redirect } from "react-router-dom";
+import {Redirect} from "react-router-dom";
 import {RootState} from "../../redux/redux-store";
 import style from "./../common/formsControls/FormsControls.module.css"
 
@@ -24,33 +24,14 @@ type MapDispatchPropsType = {
     login: (email: string, password: string, rememberMe: boolean) => void
 }
 
-const LoginForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
+const LoginForm: React.FC<InjectedFormProps<FormDataType>> = ({handleSubmit, error}) => {
     return (
-        <form onSubmit={props.handleSubmit}>
-            <div>
-                <Field
-                    placeholder={"Email"}
-                    component={Input}
-                    name={"email"}
-                    validate={[requiredField]}
-                />
-            </div>
-            <div>
-                <Field
-                    placeholder={"Password"}
-                    component={Input}
-                    name={"password"}
-                    type={"password"}
-                    validate={[requiredField]}
-                />
-            </div>
-            <Field
-                type={"checkbox"}
-                component={Input}
-                name={"rememberMe"}
-            /> remember me
-            { props.error && <div className={style.formSummeryError}>
-                {props.error}
+        <form onSubmit={handleSubmit}>
+            {createField("Email", "email", [requiredField], Input)}
+            {createField("Password", "password", [requiredField], Input, "password")}
+            {createField(null, "rememberMe", [], Input, "checkbox", "remember me")}
+            {error && <div className={style.formSummeryError}>
+                {error}
             </div>
             }
             <div>
@@ -74,7 +55,7 @@ const Login = (props: FormDataType & MapDispatchPropsType) => {
     return (
         <div>
             <h1>Login</h1>
-            <LoginReduxForm onSubmit={onSubmit} />
+            <LoginReduxForm onSubmit={onSubmit}/>
         </div>
     )
 }

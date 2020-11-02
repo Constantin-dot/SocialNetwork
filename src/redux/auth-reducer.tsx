@@ -3,7 +3,7 @@ import {ThunkAction, ThunkDispatch} from "redux-thunk";
 import {RootState} from "./redux-store";
 import {FormAction, stopSubmit} from "redux-form";
 
-export const SET_USER_DATA = 'SET-USER-DATA';
+const SET_USER_DATA = 'auth/SET-USER-DATA';
 
 export type UserDataType = {
     id: number | null
@@ -25,7 +25,7 @@ export type SetUserDataActionType = {
 
 type ActionType = SetUserDataActionType;
 
-let initialState:InitialStateType = {
+let initialState: InitialStateType = {
     id: null,
     login: null,
     email: null,
@@ -47,44 +47,39 @@ const authReducer = (state: InitialStateType = initialState, action: ActionType)
 }
 
 export const setUserData = (payload: UserDataType, isAuth: boolean): SetUserDataActionType => ({
-        type: SET_USER_DATA, payload, isAuth
+    type: SET_USER_DATA, payload, isAuth
 });
 
-type ThunkType = ThunkAction<void, RootState, unknown, ActionType|FormAction>
+type ThunkType = ThunkAction<void, RootState, unknown, ActionType | FormAction>
 
 export const getUserData = (): ThunkType => {
-    return (dispatch: ThunkDispatch< RootState , unknown , ActionType >) => {
-        return authApi.me().then(data => {
-            if (data.resultCode === 0) {
-                let {id, login, email} = data.data;
-                dispatch(setUserData({id, login, email}, true));
-            }
-        });
+    return async (dispatch: ThunkDispatch<RootState, unknown, ActionType>) => {
+        let response = await authApi.me()
+        if (response.data.resultCode === 0) {
+            let {id, login, email} = response.data.data;
+            dispatch(setUserData({id, login, email}, true));
+        }
     };
 }
 
-
-
 export const login = (email: string, password: string, rememberMe: boolean): ThunkType => {
-    return (dispatch: ThunkDispatch< RootState , unknown , ActionType |FormAction >) => {
-        authApi.login(email, password, rememberMe).then(data => {
-            if (data.resultCode === 0) {
-               dispatch(getUserData())
-            } else {
-                let message = data.messages.length > 0 ? data.messages[0] : "some error";
-                dispatch(stopSubmit("login", {_error: message}));
-            }
-        });
+    return async (dispatch: ThunkDispatch<RootState, unknown, ActionType | FormAction>) => {
+        let response = await authApi.login(email, password, rememberMe)
+        if (response.data.resultCode === 0) {
+            dispatch(getUserData())
+        } else {
+            let message = response.data.messages.length > 0 ? response.data.messages[0] : "some error";
+            dispatch(stopSubmit("login", {_error: message}));
+        }
     };
 }
 
 export const logout = (): ThunkType => {
-    return (dispatch: ThunkDispatch< RootState , unknown , ActionType >) => {
-        authApi.logout().then(data => {
-            if (data.resultCode === 0) {
-                dispatch(setUserData({id: null, email: null, login: null}, false))
-            }
-        });
+    return async (dispatch: ThunkDispatch<RootState, unknown, ActionType>) => {
+        let response = await authApi.logout()
+        if (response.data.resultCode === 0) {
+            dispatch(setUserData({id: null, email: null, login: null}, false))
+        }
     };
 }
 

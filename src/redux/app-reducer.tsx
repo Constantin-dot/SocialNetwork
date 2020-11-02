@@ -3,20 +3,23 @@ import {RootState} from "./redux-store";
 import {FormAction} from "redux-form";
 import {getUserData} from "./auth-reducer";
 
+const INITIALIZED_SUCCESS = "app/INITIALIZED-SUCCESS"
+
 let initialState:InitialStateType = {
    initialized: false
 }
 
 const appReducer = (state: InitialStateType = initialState, action: ActionType) => {
     switch (action.type) {
-        case 'INITIALIZED-SUCCESS':
+        case INITIALIZED_SUCCESS:
             return {...state, initialized: true}
         default:
             return state;
     }
 }
 //actions
-export const initializedSuccessAC = () => ({type: 'INITIALIZED-SUCCESS'} as const)
+export const initializedSuccessAC = () => ({type: INITIALIZED_SUCCESS} as const)
+
 //thunks
 export const initializeApp = (): ThunkType => {
     return (dispatch: ThunkDispatch<RootState, unknown, ActionType>) => {
@@ -26,6 +29,7 @@ export const initializeApp = (): ThunkType => {
         })
     }
 }
+
 //types
 export type InitialStateType = {
     initialized: boolean

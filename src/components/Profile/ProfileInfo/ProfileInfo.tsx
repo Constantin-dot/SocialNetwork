@@ -1,8 +1,8 @@
 import React from "react";
 import classes from "./ProfileInfo.module.css";
-import Preloader from "../../common/Preloader/Preloader";
+import Preloader from "../../common/preloader/Preloader";
 import {ProfileType} from "../../../redux/profile-reducer";
-import ProfileStatus from "./ProfileStatus";
+import ProfileStatusWithHooks from "./ProfileStatusWithHooks";
 
 
 type ProfileInfoPropsType = {
@@ -11,21 +11,21 @@ type ProfileInfoPropsType = {
     updateStatus: (status: string) => void
 }
 
-const ProfileInfo = (props: ProfileInfoPropsType) => {
-    if (!props.profile) {
+const ProfileInfo = ({profile, status, updateStatus}: ProfileInfoPropsType) => {
+    if (!profile) {
         return <Preloader/>
     }
     return (
         <div className={classes.descriptionBlock}>
-            <img src={props.profile.photos.large} alt={"large user's ava"}/>
-            <ProfileStatus
-                status={props.status}
-                updateStatus={props.updateStatus}
+            <img src={profile.photos.large} alt={"large user's ava"}/>
+            <ProfileStatusWithHooks
+                status={status}
+                updateStatus={updateStatus}
             />
-            <div>{props.profile.aboutMe}</div>
-            <div>{props.profile.contacts.facebook}</div>
-            <div>{props.profile.contacts.vk}</div>
-            <div>{props.profile.contacts.github}</div>
+            <div>{profile.aboutMe}</div>
+            <div>{profile.contacts.facebook}</div>
+            <div>{profile.contacts.vk}</div>
+            <div>{profile.contacts.github}</div>
         </div>
     )
 }

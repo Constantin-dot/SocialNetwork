@@ -3,9 +3,10 @@ import {profileApi, usersApi} from "../api/api";
 import {ThunkAction, ThunkDispatch} from "redux-thunk";
 import {RootState} from "./redux-store";
 
-export const ADD_POST = 'ADD-POST';
-export const SET_USER_PROFILE = 'SET-USER-PROFILE';
-export const SET_STATUS = 'SET-STATUS';
+const ADD_POST = 'profile/ADD-POST';
+const SET_USER_PROFILE = 'profile/SET-USER-PROFILE';
+const SET_STATUS = 'profile/SET-STATUS';
+const DELETE_POST = 'profile/DELETE-POST';
 
 export type PhotosType = {
     "small": string
@@ -45,7 +46,7 @@ export type ProfilePageType = {
     status: string
 }
 
-export type AddPostActionType  = {
+export type AddPostActionType = {
     type: typeof ADD_POST
     newPostText: string
 }
@@ -60,8 +61,15 @@ export type SetStatusActionType = {
     status: string
 }
 
-type ActionType = AddPostActionType |
-    SetUserProfileActionType | SetStatusActionType;
+export type DeletePostActionType = {
+    type: typeof DELETE_POST
+    postId: string
+}
+
+type ActionType = AddPostActionType
+    | SetUserProfileActionType
+    | SetStatusActionType
+    | DeletePostActionType;
 
 
 const initialState = {
@@ -72,6 +80,7 @@ const initialState = {
     profile: null,
     status: "",
 };
+
 const profileReducer = (state: ProfilePageType = initialState, action: ActionType) => {
     switch (action.type) {
         case ADD_POST:
@@ -80,29 +89,32 @@ const profileReducer = (state: ProfilePageType = initialState, action: ActionTyp
                 message: action.newPostText,
                 likeCount: 0,
             };
-            return  {
+            return {
                 ...state,
                 posts: [...state.posts, newPost],
                 newPostText: ''
             };
-        case SET_USER_PROFILE:{
-            return  {
+        case SET_USER_PROFILE: {
+            return {
                 ...state,
                 profile: action.profile
             };
         }
-        case SET_STATUS:{
-            return  {
+        case SET_STATUS: {
+            return {
                 ...state,
                 status: action.status
             };
+        }
+        case DELETE_POST: {
+            return {...state, posts: state.posts.filter(p => p.id !== action.postId)}
         }
         default:
             return state;
     }
 }
 
-export const addPostActionCreator = (newPostText: string):AddPostActionType => ({
+export const addPostActionCreator = (newPostText: string): AddPostActionType => ({
     type: ADD_POST, newPostText
 })
 
@@ -114,31 +126,32 @@ export const setStatus = (status: string): SetStatusActionType => ({
     type: SET_STATUS, status
 })
 
+export const deletePost = (postId: string): DeletePostActionType => ({
+    type: DELETE_POST, postId
+})
+
 type ThunkType = ThunkAction<void, RootState, unknown, ActionType>
 
 export const getUserProfile = (userId: number | null): ThunkType => {
-    return (dispatch: ThunkDispatch< RootState , unknown , ActionType >) => {
-        usersApi.getProfile(userId).then(data => {
-            dispatch(setUserProfile(data));
-        });
+    return async (dispatch: ThunkDispatch<RootState, unknown, ActionType>) => {
+        let response = await usersApi.getProfile(userId)
+        dispatch(setUserProfile(response.data))
     }
 }
 
 export const getStatus = (userId: string | undefined): ThunkType => {
-    return (dispatch: ThunkDispatch< RootState , unknown , ActionType >) => {
-        profileApi.getStatus(userId).then(data => {
-            dispatch(setStatus(data));
-        });
+    return async (dispatch: ThunkDispatch<RootState, unknown, ActionType>) => {
+        let response = await profileApi.getStatus(userId)
+        dispatch(setStatus(response.data))
     }
 }
 
 export const updateStatus = (status: string): ThunkType => {
-    return (dispatch: ThunkDispatch< RootState , unknown , ActionType >) => {
-        profileApi.updateStatus(status).then(data => {
-            if(data.resultCode === 0) {
-                dispatch(setStatus(status));
-            }
-        });
+    return async (dispatch: ThunkDispatch<RootState, unknown, ActionType>) => {
+        let response = await profileApi.updateStatus(status)
+        if (response.data.resultCode === 0) {
+            dispatch(setStatus(status))
+        }
     }
 }
 

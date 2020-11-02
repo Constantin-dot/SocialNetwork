@@ -1,6 +1,6 @@
 import {v1} from "uuid";
 
-export const ADD_MESSAGE = 'ADD-MESSAGE';
+const ADD_MESSAGE = 'dialogs/ADD-MESSAGE';
 
 export type MessageType = {
     id: string

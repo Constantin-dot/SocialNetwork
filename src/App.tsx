@@ -1,10 +1,9 @@
 import React from 'react';
 import './App.css';
-import {BrowserRouter, Route} from "react-router-dom";
+import {BrowserRouter, Route, Switch} from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar";
-import DialogsContainer from "./components/Dialogs/DialogsContainer";
 import UsersContainer from "./components/Users/UsersContainer";
-import ProfileContainer from "./components/Profile/ProfileContainer";
+// import ProfileContainer from "./components/Profile/ProfileContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
 import Login from "./components/login/Login";
 import {connect, Provider} from "react-redux";
@@ -13,6 +12,9 @@ import {compose} from "redux";
 import {initializeApp} from "./redux/app-reducer";
 import store, {RootState} from "./redux/redux-store";
 import Preloader from "./components/common/preloader/Preloader";
+
+const DialogsContainer = React.lazy(() => import("./components/Dialogs/DialogsContainer"))
+const ProfileContainer = React.lazy(() => import("./components/Profile/ProfileContainer"))
 
 type MapStatePropsType = {
     initialized: boolean
@@ -39,10 +41,14 @@ class App extends React.Component<AppType> {
                 <HeaderContainer/>
                 <Navbar/>
                 <div className='app-wrapper-content'>
-                    <Route path={'/dialogs'} component={DialogsContainer}/>
-                    <Route path={'/profile/:userId?'} component={ProfileContainer}/>
-                    <Route path={'/users'} component={UsersContainer}/>
-                    <Route path={'/login'} component={Login}/>
+                    <React.Suspense fallback={<Preloader/>}>
+                        <Switch>
+                            <Route path={'/dialogs'} component={DialogsContainer}/>
+                            <Route path={'/profile/:userId?'} component={ProfileContainer}/>
+                            <Route path={'/users'} component={UsersContainer}/>
+                            <Route path={'/login'} component={Login}/>
+                        </Switch>
+                    </React.Suspense>
                 </div>
             </div>
         );

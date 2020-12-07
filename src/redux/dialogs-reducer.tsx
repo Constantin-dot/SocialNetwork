@@ -39,7 +39,7 @@ const  initialState = {
         {id: v1(), name: 'Valera'},
     ],
 }
-const dialogsReducer = (state: DialogsPageType = initialState, action: ActionType) => {
+const dialogsReducer = (state: DialogsPageType = initialState, action: ActionType): DialogsPageType => {
 
     switch (action.type) {
         case ADD_MESSAGE:

@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import {BrowserRouter, Route, Switch} from "react-router-dom";
+import {BrowserRouter, Route, Switch, Redirect} from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar";
 import UsersContainer from "./components/Users/UsersContainer";
 // import ProfileContainer from "./components/Profile/ProfileContainer";
@@ -27,8 +27,17 @@ type MapDispatchPropsType = {
 type AppType = MapStatePropsType & MapDispatchPropsType
 
 class App extends React.Component<AppType> {
+    catchAllUnhandledErrors = (promiseRejectionEvent: Event) => {
+        alert("Some error occured")
+    }
+
     componentDidMount() {
-        this.props.initializeApp();
+        this.props.initializeApp()
+        window.addEventListener("unhandledrejection", this.catchAllUnhandledErrors)
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener("unhandledrejection", this.catchAllUnhandledErrors)
     }
 
     render() {
@@ -43,10 +52,12 @@ class App extends React.Component<AppType> {
                 <div className='app-wrapper-content'>
                     <React.Suspense fallback={<Preloader/>}>
                         <Switch>
+                            <Route exact path={'/'} component={() => <Redirect to={"/profile"}/>} />
                             <Route path={'/dialogs'} component={DialogsContainer}/>
                             <Route path={'/profile/:userId?'} component={ProfileContainer}/>
                             <Route path={'/users'} component={UsersContainer}/>
                             <Route path={'/login'} component={Login}/>
+                            <Route path={'*'} component={() => <div>404 NOT FOUND</div>}/>
                         </Switch>
                     </React.Suspense>
                 </div>

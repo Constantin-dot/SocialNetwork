@@ -5,8 +5,9 @@ import {getUserData} from "./auth-reducer";
 
 const INITIALIZED_SUCCESS = "app/INITIALIZED-SUCCESS"
 
-let initialState:InitialStateType = {
-   initialized: false
+let initialState: InitialStateType = {
+    initialized: false,
+    globalError: null
 }
 
 const appReducer = (state: InitialStateType = initialState, action: ActionType) => {
@@ -14,7 +15,7 @@ const appReducer = (state: InitialStateType = initialState, action: ActionType) 
         case INITIALIZED_SUCCESS:
             return {...state, initialized: true}
         default:
-            return state;
+            return state
     }
 }
 //actions
@@ -33,12 +34,13 @@ export const initializeApp = (): ThunkType => {
 //types
 export type InitialStateType = {
     initialized: boolean
-};
+    globalError: string | null
+}
 
 export type SetInitializedActionType = ReturnType<typeof initializedSuccessAC>
 
-type ActionType = SetInitializedActionType;
+type ActionType = SetInitializedActionType
 
-type ThunkType = ThunkAction<void, RootState, unknown, ActionType|FormAction>
+type ThunkType = ThunkAction<void, RootState, unknown, ActionType | FormAction>
 
-export default appReducer;
+export default appReducer

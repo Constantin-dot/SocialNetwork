@@ -4,7 +4,7 @@
 
 .pageNumber {
     padding: 2px;
-    border: 1px solid #002635;
+    border: 1px solid darkgoldenrod;
 }
 .pageNumber.selectedPage {
     font-weight: bold;

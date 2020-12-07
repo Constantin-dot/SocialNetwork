@@ -1,4 +1,5 @@
 import axios from "axios";
+import { ProfileDataFormType } from "../components/Profile/ProfileInfo/ProfileDataForm";
 
 const instance = axios.create({
     withCredentials: true,
@@ -34,17 +35,34 @@ export const profileApi = {
     updateStatus: (status: string) => {
         return instance.put(`profile/status`, {status: status})
     },
+    savePhoto: (photoFile: string) => {
+        const formData = new FormData()
+        formData.append("image", photoFile)
+        return instance.put(`profile/photo`, formData, {
+            headers: {
+                "Content-Type": "multipart/form-data"
+            }
+        })
+    },
+    saveProfile: (profile: ProfileDataFormType) => {
+        return instance.put(`profile`, profile)
+    }
 }
 
 export const authApi = {
     me: () => {
         return instance.get(`auth/me`)
     },
-    login: (email: string, password: string, rememberMe = false) => {
-        return instance.post(`auth/login`, {email, password, rememberMe})
+    login: (email: string, password: string, rememberMe: boolean = false, captcha: string | null = null) => {
+        return instance.post(`auth/login`, {email, password, rememberMe, captcha})
     },
     logout: () => {
         return instance.delete(`auth/login`)
     }
 }
 
+export const securityApi = {
+    getCaptchaUrl:() => {
+        return instance.delete(`security/get-captcha-url`)
+    }
+}

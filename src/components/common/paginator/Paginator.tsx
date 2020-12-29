@@ -6,15 +6,15 @@ type PropsUsersType = {
     totalItemsCount: number
     pageSize: number
     currentPage: number
-    portionSize: number
+    portionSize?: number
     onPageChange: (pageNumber: number) => void
 }
 
-const Paginator = ({totalItemsCount, pageSize, onPageChange, currentPage, portionSize}: PropsUsersType) => {
-    let pagesCount = Math.ceil(totalItemsCount / pageSize);
-    let pages = [];
+const Paginator: React.FC<PropsUsersType> = ({totalItemsCount, pageSize, onPageChange, currentPage, portionSize = 10}) => {
+    let pagesCount = Math.ceil(totalItemsCount / pageSize)
+    let pages: Array<number> = []
     for (let i = 1; i <= pagesCount; i++) {
-        pages.push(i);
+        pages.push(i)
     }
     let portionCount = Math.ceil(pagesCount / portionSize)
     let [portionNumber, setPortionNumber] = useState(1)
@@ -41,4 +41,4 @@ const Paginator = ({totalItemsCount, pageSize, onPageChange, currentPage, portio
     </div>
 }
 
-export default Paginator;
+export default Paginator

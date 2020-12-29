@@ -1,6 +1,5 @@
 import {v1} from "uuid";
-
-const ADD_MESSAGE = 'dialogs/ADD-MESSAGE';
+import {InferActionsTypes} from "../types/types";
 
 export type MessageType = {
     id: string
@@ -12,24 +11,14 @@ export type DialogType = {
     name: string
 }
 
-export type DialogsPageType = {
-    messages: Array<MessageType>
-    dialogs: Array<DialogType>
-}
-
-export type AddMessageActionType  = {
-    type: typeof ADD_MESSAGE
-    newMessageBody: string
-}
-
-type ActionType = AddMessageActionType;
+export type DialogsStateType = typeof initialState
 
 const  initialState = {
     messages: [
         {id: v1(), message: 'Hi!'},
         {id: v1(), message: 'How are you?'},
         {id: v1(), message: 'Yo Yo'},
-    ],
+    ] as Array<MessageType>,
     dialogs: [
         {id: v1(), name: 'Dima'},
         {id: v1(), name: 'Andrey'},
@@ -37,27 +26,29 @@ const  initialState = {
         {id: v1(), name: 'Sasha'},
         {id: v1(), name: 'Viktor'},
         {id: v1(), name: 'Valera'},
-    ],
+    ] as Array<DialogType>
 }
-const dialogsReducer = (state: DialogsPageType = initialState, action: ActionType): DialogsPageType => {
+const dialogsReducer = (state = initialState, action: ActionsTypes): DialogsStateType => {
 
     switch (action.type) {
-        case ADD_MESSAGE:
+        case 'DIALOGS/ADD_MESSAGE':
             const newMessage: MessageType = {
                 id: v1(),
                 message: action.newMessageBody,
-            };
+            }
             return {
                 ...state,
                 messages: [...state.messages, newMessage]
-            };
+            }
         default:
-            return state;
+            return state
     }
 }
 
-export const addMessageActionCreator = (newMessageBody: string):AddMessageActionType => ({
-    type: ADD_MESSAGE, newMessageBody
-})
+type ActionsTypes = InferActionsTypes<typeof actions>
 
-export default dialogsReducer;
+export const actions = {
+    addMessage: (newMessageBody: string) => ({type: 'DIALOGS/ADD_MESSAGE', newMessageBody} as const)
+}
+
+export default dialogsReducer

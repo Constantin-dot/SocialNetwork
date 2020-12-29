@@ -3,14 +3,13 @@ import './App.css';
 import {BrowserRouter, Route, Switch, Redirect} from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar";
 import UsersContainer from "./components/Users/UsersContainer";
-// import ProfileContainer from "./components/Profile/ProfileContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
 import Login from "./components/login/Login";
 import {connect, Provider} from "react-redux";
 import {withRouter} from "react-router-dom";
 import {compose} from "redux";
 import {initializeApp} from "./redux/app-reducer";
-import store, {RootState} from "./redux/redux-store";
+import store, {AppStateType} from "./redux/redux-store";
 import Preloader from "./components/common/preloader/Preloader";
 
 const DialogsContainer = React.lazy(() => import("./components/Dialogs/DialogsContainer"))
@@ -27,8 +26,8 @@ type MapDispatchPropsType = {
 type AppType = MapStatePropsType & MapDispatchPropsType
 
 class App extends React.Component<AppType> {
-    catchAllUnhandledErrors = (promiseRejectionEvent: Event) => {
-        alert("Some error occured")
+    catchAllUnhandledErrors = (e: PromiseRejectionEvent) => {
+        alert("Some error occurred")
     }
 
     componentDidMount() {
@@ -55,27 +54,27 @@ class App extends React.Component<AppType> {
                             <Route exact path={'/'} component={() => <Redirect to={"/profile"}/>} />
                             <Route path={'/dialogs'} component={DialogsContainer}/>
                             <Route path={'/profile/:userId?'} component={ProfileContainer}/>
-                            <Route path={'/users'} component={UsersContainer}/>
+                            <Route path={'/users'} component={() => <UsersContainer pageTitle={"Samurais"}/>}/>
                             <Route path={'/login'} component={Login}/>
                             <Route path={'*'} component={() => <div>404 NOT FOUND</div>}/>
                         </Switch>
                     </React.Suspense>
                 </div>
             </div>
-        );
+        )
     }
 }
 
 
 
-const mapStateToProps = (state: RootState):MapStatePropsType => ({initialized: state.app.initialized})
+const mapStateToProps = (state: AppStateType):MapStatePropsType => ({initialized: state.app.initialized})
 
 let AppContainer =  compose<React.ComponentType>(
     withRouter,
     connect(mapStateToProps, {initializeApp})
-  ) (App);
+  ) (App)
 
-const SamuraiJSApp = () => {
+const SamuraiJSApp: React.FC = () => {
     return <BrowserRouter>
         <Provider store={store}>
             <AppContainer />
@@ -83,4 +82,4 @@ const SamuraiJSApp = () => {
     </BrowserRouter>
 }
 
-export default SamuraiJSApp;
+export default SamuraiJSApp

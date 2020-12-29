@@ -3,44 +3,27 @@ import {reduxForm, InjectedFormProps} from "redux-form";
 import {Input, createField} from "../common/formsControls/FormsControls";
 import {requiredField} from "../../utils/validators/validators";
 import {connect} from "react-redux";
-import {AuthDataType, login} from "../../redux/auth-reducer";
+import {login} from "../../redux/auth-reducer";
 import {Redirect} from "react-router-dom";
-import {RootState} from "../../redux/redux-store";
+import {AppStateType} from "../../redux/redux-store";
 import style from "./../common/formsControls/FormsControls.module.css"
 
-type FormDataType = {
-    email: string
-    password: string
-    rememberMe: boolean
-    captcha: string | null
-    isAuth: boolean
-    captchaUrl: string | null
-    login: (email: string, password: string, rememberMe: boolean, captcha: string | null) => void
-}
-
-type FormPropsType = {
+type LoginFormPropsType = {
     captchaUrl: string | null
 }
 
-type MapStateToProps = {
-    captchaUrl: string | null
-    isAuth: AuthDataType
-}
-
-type MapDispatchPropsType = {
-    login: (email: string, password: string, rememberMe: boolean, captcha: string  | null) => void
-}
-
-const LoginForm: React.FC<InjectedFormProps<FormDataType, FormPropsType> & FormPropsType> = ({handleSubmit, error, captchaUrl }) => {
+const LoginForm: React.FC<InjectedFormProps<LoginFormValuesType, LoginFormPropsType> & LoginFormPropsType> = (
+    {handleSubmit, error, captchaUrl }
+    ) => {
     return (
 
         <form onSubmit={handleSubmit}>
-            {createField("Email", "email", [requiredField], Input)}
-            {createField("Password", "password", [requiredField], Input, "password")}
-            {createField(null, "rememberMe", [], Input, "checkbox", "remember me")}
+            {createField<LoginFormValuesTypeKeys>("Email", "email", [requiredField], Input)}
+            {createField<LoginFormValuesTypeKeys>("Password", "password", [requiredField], Input, "password")}
+            {createField<LoginFormValuesTypeKeys>(null, "rememberMe", [], Input, "checkbox", "remember me")}
 
             {captchaUrl && <img src={captchaUrl} alt={"captchaUrl"}/>}
-            {captchaUrl && createField("Symbols from image", "captcha", [requiredField], Input)}
+            {captchaUrl && createField<LoginFormValuesTypeKeys>("Symbols from image", "captcha", [requiredField], Input)}
 
             {error && <div className={style.formSummeryError}>
                 {error}
@@ -53,13 +36,30 @@ const LoginForm: React.FC<InjectedFormProps<FormDataType, FormPropsType> & FormP
     )
 }
 
-const LoginReduxForm = reduxForm<FormDataType, FormPropsType>({form: 'login'})(LoginForm)
+const LoginReduxForm = reduxForm<LoginFormValuesType, LoginFormPropsType>({form: 'login'})(LoginForm)
 
-const Login = (props: FormDataType & MapDispatchPropsType) => {
+type MapStatePropsType = {
+    captchaUrl: string | null
+    isAuth: boolean
+}
 
-    const onSubmit = (formData: FormDataType) => {
-        debugger
-        props.login(formData.email, formData.password, formData.rememberMe, formData.captcha);
+type MapDispatchPropsType = {
+    login: (email: string, password: string, rememberMe: boolean, captcha: string  | null) => void
+}
+
+export type LoginFormValuesType = {
+    email: string
+    password: string
+    rememberMe: boolean
+    captcha: string | null
+}
+
+type LoginFormValuesTypeKeys = Extract<keyof LoginFormValuesType, string>
+
+const Login: React.FC<MapStatePropsType & MapDispatchPropsType> = (props) => {
+
+    const onSubmit = (formData: LoginFormValuesType) => {
+        props.login(formData.email, formData.password, formData.rememberMe, formData.captcha)
     }
 
     if (props.isAuth) {
@@ -74,11 +74,11 @@ const Login = (props: FormDataType & MapDispatchPropsType) => {
     )
 }
 
-const mapStateToProps = (state: RootState) => {
+const mapStateToProps = (state: AppStateType): MapStatePropsType => {
     return {
         captchaUrl: state.auth.captchaUrl,
         isAuth: state.auth.isAuth
     }
 }
 
-export default connect(mapStateToProps, {login})(Login);
+export default connect(mapStateToProps, {login})(Login)

@@ -1,10 +1,10 @@
 import React, {ChangeEvent, useState} from "react";
 import classes from "./ProfileInfo.module.css";
 import Preloader from "../../common/preloader/Preloader";
-import {ProfileType} from "../../../redux/profile-reducer";
 import ProfileStatusWithHooks from "./ProfileStatusWithHooks";
 import userPhoto from "./../../../assets/images/user.png";
 import ProfileDataReduxForm, { ProfileDataFormType } from "./ProfileDataForm";
+import {ProfileType} from "../../../types/types";
 
 
 type ProfileInfoPropsType = {

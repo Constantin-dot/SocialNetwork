@@ -2,13 +2,13 @@ import React from "react";
 import styles from "./User.module.css";
 import userPhoto from "../../../assets/images/user.png";
 import {NavLink} from "react-router-dom";
-import {UserType} from "../../../redux/users-reducer";
+import {UserType} from "../../../types/types";
 
 type PropsUsersType = {
     user: UserType
-    follow: (id: string) => void
-    unfollow: (id: string) => void
-    followingInProgress: string[]
+    follow: (id: number) => void
+    unfollow: (id: number) => void
+    followingInProgress: number[]
 }
 
 let User = ({user, followingInProgress, follow, unfollow}: PropsUsersType) => {
@@ -47,4 +47,4 @@ let User = ({user, followingInProgress, follow, unfollow}: PropsUsersType) => {
     </div>
 }
 
-export default User;
+export default User

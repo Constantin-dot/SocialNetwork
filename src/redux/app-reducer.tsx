@@ -1,46 +1,40 @@
 import {ThunkAction, ThunkDispatch} from "redux-thunk";
-import {RootState} from "./redux-store";
+import {AppStateType} from "./redux-store";
 import {FormAction} from "redux-form";
 import {getUserData} from "./auth-reducer";
+import {InferActionsTypes} from "../types/types";
 
-const INITIALIZED_SUCCESS = "app/INITIALIZED-SUCCESS"
+type InitialStateType = typeof initialState
 
-let initialState: InitialStateType = {
+const initialState = {
     initialized: false,
-    globalError: null
+    globalError: null as string | null
 }
 
-const appReducer = (state: InitialStateType = initialState, action: ActionType) => {
+const appReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
     switch (action.type) {
-        case INITIALIZED_SUCCESS:
+        case 'APP/INITIALIZED_SUCCESS':
             return {...state, initialized: true}
         default:
             return state
     }
 }
-//actions
-export const initializedSuccessAC = () => ({type: INITIALIZED_SUCCESS} as const)
 
-//thunks
+type ActionsTypes = InferActionsTypes<typeof actions>
+
+export const actions = {
+    initializedSuccessAC: () => ({type: 'APP/INITIALIZED_SUCCESS'} as const)
+}
+
+type ThunkType = ThunkAction<void, AppStateType, unknown, ActionsTypes | FormAction>
+
 export const initializeApp = (): ThunkType => {
-    return (dispatch: ThunkDispatch<RootState, unknown, ActionType>) => {
+    return (dispatch: ThunkDispatch<AppStateType, unknown, ActionsTypes>) => {
         let promise = dispatch(getUserData())
         Promise.all([promise]).then(() => {
-            dispatch(initializedSuccessAC())
+            dispatch(actions.initializedSuccessAC())
         })
     }
 }
-
-//types
-export type InitialStateType = {
-    initialized: boolean
-    globalError: string | null
-}
-
-export type SetInitializedActionType = ReturnType<typeof initializedSuccessAC>
-
-type ActionType = SetInitializedActionType
-
-type ThunkType = ThunkAction<void, RootState, unknown, ActionType | FormAction>
 
 export default appReducer

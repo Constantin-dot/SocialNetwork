@@ -12,7 +12,6 @@ import {
 import {RouteComponentProps, withRouter} from "react-router-dom";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import {compose} from "redux";
-import {ProfileDataFormType} from "./ProfileInfo/ProfileDataForm";
 import {ProfileType} from "../../types/types";
 
 type PathParamsType = {
@@ -30,8 +29,8 @@ type MapDispatchPropsType = {
     getUserProfile: (userId: number|null) => void
     getStatus: (userId: number|null) => void
     updateStatus: (status: string) => void
-    savePhoto: (file: any) => void
-    saveProfile: (profile: ProfileDataFormType) => void
+    savePhoto: (file: File) => void
+    saveProfile: (profile: ProfileType) => void
 }
 
 type ProfileContainerType = MapStatePropsType & MapDispatchPropsType
@@ -43,20 +42,22 @@ class ProfileContainer extends React.Component<CommonPropsType>{
     refreshProfile() {
         let userId: number | null = Number(this.props.match.params.userId)
         if (!userId) {
-            userId = this.props.authorizedUserId;
+            userId = this.props.authorizedUserId
             if (!userId) {
                 this.props.history.push("/login")
             }
+            console.error("ID should exists in URI params or in state ('authorizedUseId')")
+        } else {
+            this.props.getUserProfile(userId)
+            this.props.getStatus(userId)
         }
-        this.props.getUserProfile(userId)
-        this.props.getStatus(userId)
     }
 
     componentDidMount() {
         this.refreshProfile()
     }
 
-    componentDidUpdate(prevProps: Readonly<CommonPropsType>, prevState: Readonly<{}>, snapshot?: any) {
+    componentDidUpdate(prevProps: Readonly<CommonPropsType>, prevState: Readonly<{}>) {
         // if (!this.props.match.params.userId) {
         //     this.refreshProfile()
         // }

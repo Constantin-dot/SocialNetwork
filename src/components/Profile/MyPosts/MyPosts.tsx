@@ -1,19 +1,15 @@
 import React from "react";
 import classes from "./MyPosts.module.css";
 import Post from "./Post/Post";
-import {MapStatePropsType, MapDispatchPropsType} from "./MyPostsContainer";
-import {Field, InjectedFormProps, reduxForm} from "redux-form";
-import {maxLengthCreator, requiredField} from "../../../utils/validators/validators";
-import {Textarea} from "../../common/formsControls/FormsControls";
+import AddPostForm, {AddPostFormDataType} from "./AddPostForm";
+import {PostType} from "../../../types/types";
 
-
-type FormDataType = {
-    newPostText: string
+type MyPostsPropsType = {
+    posts: Array<PostType>
+    addPost: (newPostText: string) => void
 }
 
-type PropsType = MapStatePropsType & MapDispatchPropsType;
-
-const MyPosts = React.memo((props: PropsType) => {
+const MyPosts: React.FC<MyPostsPropsType> = React.memo((props) => {
 
     let postsElements = props.posts.map((p) =>
         <Post
@@ -22,16 +18,16 @@ const MyPosts = React.memo((props: PropsType) => {
             likeCount={p.likeCount}
             id={p.id}
         />
-    );
+    )
 
-    let addNewPost = (values: FormDataType) => {
-        props.addPost(values.newPostText);
+    let addNewPost = (values: AddPostFormDataType) => {
+        props.addPost(values.newPostText)
     }
 
     return (
         <div className={classes.myPosts}>
             <h3>My posts</h3>
-            <AddNewPostForm onSubmit={addNewPost}/>
+            <AddPostForm onSubmit={addNewPost}/>
             <div className={classes.posts}>
                 {postsElements}
             </div>
@@ -39,26 +35,4 @@ const MyPosts = React.memo((props: PropsType) => {
     )
 })
 
-let maxLength10 = maxLengthCreator(10);
-
-const AddNewPost: React.FC<InjectedFormProps<FormDataType>> = (props) => {
-    return (
-        <form onSubmit={props.handleSubmit}>
-            <div>
-                <Field
-                    placeholder={"Enter your post"}
-                    component={Textarea}
-                    name={"newPostText"}
-                    validate={[requiredField, maxLength10]}
-                />
-            </div>
-            <div>
-                <button>Add post</button>
-            </div>
-        </form>
-    )
-}
-
-const AddNewPostForm = reduxForm<FormDataType>({form: 'login'})(AddNewPost)
-
-export default MyPosts;
+export default MyPosts

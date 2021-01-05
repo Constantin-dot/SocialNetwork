@@ -1,4 +1,3 @@
-import {ProfileDataFormType} from "../components/Profile/ProfileInfo/ProfileDataForm";
 import {instance, APIResponseType} from "./api";
 import {PhotosType, ProfileType} from "../types/types";
 
@@ -25,7 +24,7 @@ export const profileApi = {
             headers: {"Content-Type": "multipart/form-data"}})
             .then(res => res.data)
     },
-    saveProfile: (profile: ProfileDataFormType) => {
+    saveProfile: (profile: ProfileType) => {
         return instance.put<APIResponseType>(`profile`, profile)
             .then(res => res.data)
     }

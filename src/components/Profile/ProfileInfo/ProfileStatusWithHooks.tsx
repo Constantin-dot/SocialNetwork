@@ -5,7 +5,7 @@ type ProfileStatusPropsType = {
     updateStatus: (status: string) => void
 }
 
-const ProfileStatusWithHooks = (props: ProfileStatusPropsType) => {
+const ProfileStatusWithHooks: React.FC<ProfileStatusPropsType> = (props) => {
     const [editMode, setEditMode] = useState(false);
     const [status, setStatus] = useState(props.status);
 

@@ -51,7 +51,7 @@ class App extends React.Component<AppType> {
                 <div className='app-wrapper-content'>
                     <React.Suspense fallback={<Preloader/>}>
                         <Switch>
-                            <Route exact path={'/'} component={() => <Redirect to={"/profile"}/>} />
+                            <Route exact path={'/SocialNetwork'} component={() => <Redirect to={"/profile"}/>} />
                             <Route path={'/dialogs'} component={DialogsContainer}/>
                             <Route path={'/profile/:userId?'} component={ProfileContainer}/>
                             <Route path={'/users'} component={() => <UsersContainer pageTitle={"Samurais"}/>}/>

@@ -4,14 +4,14 @@ import userPhoto from "../../../assets/images/user.png";
 import {NavLink} from "react-router-dom";
 import {UserType} from "../../../types/types";
 
-type PropsUsersType = {
+type UsersPropsType = {
     user: UserType
     follow: (id: number) => void
     unfollow: (id: number) => void
     followingInProgress: number[]
 }
 
-let User = ({user, followingInProgress, follow, unfollow}: PropsUsersType) => {
+let User = ({user, followingInProgress, follow, unfollow}: UsersPropsType) => {
 
     return <div>
         <span>

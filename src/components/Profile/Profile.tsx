@@ -2,9 +2,7 @@ import React from "react";
 import classes from "./Profile.module.css";
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
 import MyPostsContainer from "./MyPosts/MyPostsContainer";
-import {ProfileDataFormType} from "./ProfileInfo/ProfileDataForm";
 import {ProfileType} from "../../types/types";
-
 
 type ProfilePropsType = {
     isOwner: boolean
@@ -12,10 +10,10 @@ type ProfilePropsType = {
     status: string
     updateStatus: (status: string) => void
     savePhoto: (file: File) => void
-    saveProfile: (profile: ProfileDataFormType) => void
+    saveProfile: (profile: ProfileType) => void
 }
 
-const Profile = (props: ProfilePropsType) => {
+const Profile: React.FC<ProfilePropsType> = (props) => {
 
     return (
         <div className={classes.content}>
@@ -33,4 +31,4 @@ const Profile = (props: ProfilePropsType) => {
     )
 }
 
-export default Profile;
+export default Profile

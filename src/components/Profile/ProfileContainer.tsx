@@ -40,12 +40,15 @@ type CommonPropsType = RouteComponentProps<PathParamsType> & ProfileContainerTyp
 class ProfileContainer extends React.Component<CommonPropsType>{
 
     refreshProfile() {
+        debugger
         let userId: number | null = Number(this.props.match.params.userId)
         if (!userId) {
             userId = this.props.authorizedUserId
             if (!userId) {
                 this.props.history.push("/login")
             }
+        }
+        if (!userId) {
             console.error("ID should exists in URI params or in state ('authorizedUseId')")
         } else {
             this.props.getUserProfile(userId)
@@ -58,9 +61,9 @@ class ProfileContainer extends React.Component<CommonPropsType>{
     }
 
     componentDidUpdate(prevProps: Readonly<CommonPropsType>, prevState: Readonly<{}>) {
-        if (!this.props.match.params.userId) {
-            this.refreshProfile()
-        }
+        // if (!this.props.match.params.userId) {
+        //     this.refreshProfile()
+        // }
     }
 
     render() {

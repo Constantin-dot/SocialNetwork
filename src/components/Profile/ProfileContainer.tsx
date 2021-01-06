@@ -58,9 +58,9 @@ class ProfileContainer extends React.Component<CommonPropsType>{
     }
 
     componentDidUpdate(prevProps: Readonly<CommonPropsType>, prevState: Readonly<{}>) {
-        // if (!this.props.match.params.userId) {
-        //     this.refreshProfile()
-        // }
+        if (!this.props.match.params.userId) {
+            this.refreshProfile()
+        }
     }
 
     render() {

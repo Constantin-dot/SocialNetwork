@@ -7,10 +7,10 @@ type PropsUsersType = {
     pageSize: number
     currentPage?: number
     portionSize?: number
-    onPageChange?: (pageNumber: number) => void
+    onPageChanged?: (pageNumber: number) => void
 }
 
-const Paginator: React.FC<PropsUsersType> = ({totalItemsCount, pageSize, onPageChange = x => x, currentPage= 1, portionSize = 10}) => {
+const Paginator: React.FC<PropsUsersType> = ({totalItemsCount, pageSize, onPageChanged = x => x, currentPage= 1, portionSize = 10}) => {
     let pagesCount = Math.ceil(totalItemsCount / pageSize)
     let pages: Array<number> = []
     for (let i = 1; i <= pagesCount; i++) {
@@ -32,7 +32,7 @@ const Paginator: React.FC<PropsUsersType> = ({totalItemsCount, pageSize, onPageC
             }, styles.pageNumber)}
                          key={p}
                          onClick={(e) => {
-                             onPageChange(p)
+                             onPageChanged(p)
                          }}
             >{`-${p}-`}</span>
         })}

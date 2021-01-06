@@ -40,7 +40,6 @@ type CommonPropsType = RouteComponentProps<PathParamsType> & ProfileContainerTyp
 class ProfileContainer extends React.Component<CommonPropsType>{
 
     refreshProfile() {
-        debugger
         let userId: number | null = Number(this.props.match.params.userId)
         if (!userId) {
             userId = this.props.authorizedUserId

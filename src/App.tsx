@@ -2,15 +2,15 @@ import React from 'react';
 import './App.css';
 import {BrowserRouter, Route, Switch, Redirect} from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar";
-import UsersContainer from "./components/Users/UsersContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
-import Login from "./components/login/Login";
+import {LoginPage} from "./components/login/LoginPage";
 import {connect, Provider} from "react-redux";
 import {withRouter} from "react-router-dom";
 import {compose} from "redux";
 import {initializeApp} from "./redux/app-reducer";
 import store, {AppStateType} from "./redux/redux-store";
 import Preloader from "./components/common/preloader/Preloader";
+import {UsersPage} from "./components/Users/UsersPage";
 
 const DialogsContainer = React.lazy(() => import("./components/Dialogs/DialogsContainer"))
 const ProfileContainer = React.lazy(() => import("./components/Profile/ProfileContainer"))
@@ -54,8 +54,8 @@ class App extends React.Component<AppType> {
                             <Route exact path={'/SocialNetwork'} component={() => <Redirect to={"/profile"}/>} />
                             <Route path={'/dialogs'} component={DialogsContainer}/>
                             <Route path={'/profile/:userId?'} component={ProfileContainer}/>
-                            <Route path={'/users'} component={() => <UsersContainer pageTitle={"Samurais"}/>}/>
-                            <Route path={'/login'} component={Login}/>
+                            <Route path={'/users'} component={() => <UsersPage pageTitle={"Samurais"}/>}/>
+                            <Route path={'/login'} component={LoginPage}/>
                             <Route path={'*'} component={() => <div>404 NOT FOUND</div>}/>
                         </Switch>
                     </React.Suspense>

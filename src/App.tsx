@@ -26,7 +26,7 @@ type MapDispatchPropsType = {
 type AppType = MapStatePropsType & MapDispatchPropsType
 
 class App extends React.Component<AppType> {
-    catchAllUnhandledErrors = (e: PromiseRejectionEvent) => {
+    catchAllUnhandledErrors = () => {
         alert("Some error occurred")
     }
 
@@ -51,12 +51,12 @@ class App extends React.Component<AppType> {
                 <div className='app-wrapper-content'>
                     <React.Suspense fallback={<Preloader/>}>
                         <Switch>
-                            <Route exact path={'/SocialNetwork'} component={() => <Redirect to={"/profile"}/>} />
-                            <Route path={'/dialogs'} component={DialogsContainer}/>
-                            <Route path={'/profile/:userId?'} component={ProfileContainer}/>
-                            <Route path={'/users'} component={() => <UsersPage pageTitle={"Samurais"}/>}/>
-                            <Route path={'/login'} component={LoginPage}/>
-                            <Route path={'*'} component={() => <div>404 NOT FOUND</div>}/>
+                            <Route exact path={'/SocialNetwork'} render={() => <Redirect to={"/profile"}/>} />
+                            <Route path={'/dialogs'} render={() => <DialogsContainer />}/>
+                            <Route path={'/profile/:userId?'} render={() => <ProfileContainer />}/>
+                            <Route path={'/users'} render={() => <UsersPage pageTitle={"Samurais"}/>}/>
+                            <Route path={'/login'} render={() => <LoginPage />}/>
+                            <Route path={'*'} render={() => <div>404 NOT FOUND</div>}/>
                         </Switch>
                     </React.Suspense>
                 </div>

@@ -18,6 +18,7 @@
     "@types/react-test-renderer": "^16.9.3",
     "@types/redux-form": "^8.2.7",
     "@types/uuid": "^8.0.0",
+    "antd": "^4.10.0",
     "axios": "^0.19.2",
     "classnames": "^2.2.6",
     "formik": "^2.2.6",

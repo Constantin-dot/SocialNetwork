@@ -1,23 +1,39 @@
 import React from "react";
 import classes from "./Header.module.css";
-import {NavLink} from "react-router-dom";
+import {Link} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {selectCurrentUserLogin, selectIsAuth} from "../../redux/auth-selectors";
+import {logout} from "../../redux/auth-reducer";
+import {Avatar, Button, Layout} from 'antd';
+import {UserOutlined} from '@ant-design/icons';
 
-type HeaderPropsType = {
-    isAuth: boolean
-    login: string | null
-    logout: () => void
-}
+type HeaderPropsType = {}
 
 const Header: React.FC<HeaderPropsType> = (props) => {
+    const {Header} = Layout
+
+    const isAuth = useSelector(selectIsAuth)
+    const login = useSelector(selectCurrentUserLogin)
+
+    const dispatch = useDispatch()
+
+    const logoutCallback = () => {
+        dispatch(logout())
+    }
+
     return (
-        <header className={classes.header}>
-            <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcT3sSeODBFr_G_SJiCUAT_zTjutwK3Wwi1lswmfH-eSGIwc1Lp4&usqp=CAU' alt='Logo'/>
+        <Header className="site-layout-background" style={{padding: 0}}>
             <div className={classes.loginBlock}>
-                {props.isAuth
-                    ? <div>{props.login} - <button onClick={props.logout}>Log out</button></div>
-                    : <NavLink to={'/login'}>Login</NavLink>}
+                {isAuth
+                    ? <div>{login}<Avatar  style={{ backgroundColor: '#87d068' }} icon={<UserOutlined />} />
+                    <Button type="primary" size={'large'} onClick={logoutCallback}>
+                        Log out
+                    </Button></div>
+                    : <Button type="primary" size={'large'}>
+                        <Link to={'/login'}>Login</Link>
+                    </Button>}
             </div>
-        </header>
+        </Header>
     )
 }
 

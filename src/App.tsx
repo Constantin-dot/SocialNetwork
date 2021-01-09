@@ -25,6 +25,7 @@ const {Content, Footer, Sider} = Layout
 
 const DialogsContainer = React.lazy(() => import("./components/Dialogs/DialogsContainer"))
 const ProfileContainer = React.lazy(() => import("./components/Profile/ProfileContainer"))
+const ChatPage = React.lazy(() => import("./pages/chat/ChatPage"))
 
 type MapStatePropsType = {
     initialized: boolean
@@ -94,6 +95,9 @@ class App extends React.Component<AppType> {
                         <Menu.Item key="2" icon={<MessageTwoTone twoToneColor="#ff4609" style={{ fontSize: "30px"}}/>}>
                             <Link to="/dialogs">Messages</Link>
                         </Menu.Item>
+                        <Menu.Item key="7" icon={<MessageTwoTone twoToneColor="#ff4609" style={{ fontSize: "30px"}}/>}>
+                            <Link to="/chat">Chat</Link>
+                        </Menu.Item>
                         <Menu.Item key="3" icon={<ContactsTwoTone twoToneColor="#ff4609" style={{ fontSize: "30px"}}/>}>
                             <Link to="/users">Users</Link>
                         </Menu.Item>
@@ -118,6 +122,7 @@ class App extends React.Component<AppType> {
                                 <Route path={'/profile/:userId?'} render={() => <ProfileContainer/>}/>
                                 <Route path={'/users'} render={() => <UsersPage pageTitle={"Samurais"}/>}/>
                                 <Route path={'/login'} render={() => <LoginPage/>}/>
+                                <Route path={'/chat'} render={() => <ChatPage/>}/>
                                 <Route path={'*'} render={() => <div>404 NOT FOUND</div>}/>
                             </Switch>
                         </React.Suspense>

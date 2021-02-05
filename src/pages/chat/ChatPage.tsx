@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from "react";
-import {ChatMessageType} from "../../api/chat-api";
+import {ChatMessageAPIType, StatusType} from "../../api/chat-api";
 import {useDispatch, useSelector} from "react-redux";
 import {sendMessage, startMessagesListening, stopMessagesListening} from "../../redux/chat-reducer";
 import {AppStateType} from "../../redux/redux-store";
@@ -12,6 +12,7 @@ const ChatPage: React.FC = () => {
 
 const Chat: React.FC = () => {
     const dispatch = useDispatch()
+    const status = useSelector<AppStateType, StatusType>(state => state.chat.status)
 
     useEffect(() => {
         dispatch(startMessagesListening())
@@ -20,15 +21,18 @@ const Chat: React.FC = () => {
         }
     }, [])
 
-    return <div style={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        margin: "30px"
-    }}>
-        <Messages />
-        <AddMessageForm />
+    return <div
+        style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            margin: "30px"
+        }}
+    >
+        {status === 'error' && <div>Some error occurred. Please refresh the page</div>}
+        <Messages/>
+        <AddMessageForm/>
     </div>
 }
 
@@ -36,7 +40,6 @@ const Messages: React.FC = () => {
     const messages = useSelector((state: AppStateType) => state.chat.messages)
 
     const [isAutoScrollActive, setIsAutoScrollActive] = useState(true)
-    const [lastScrollTop, setLastScrollTop] = useState(0)
 
     useEffect(() => {
         if (isAutoScrollActive) {
@@ -45,28 +48,26 @@ const Messages: React.FC = () => {
     }, [messages])
 
     const messagesAnchorRef = useRef<HTMLDivElement>(null)
+    const scrollHandler = (e: React.UIEvent<HTMLDivElement, UIEvent>) => {
+        let element = e.currentTarget
 
+        if (Math.abs((element.scrollHeight - element.scrollTop) - element.clientHeight) < 300) {
+            !isAutoScrollActive && setIsAutoScrollActive(true)
+        } else {
+            isAutoScrollActive && setIsAutoScrollActive(false)
+        }
+    }
 
     return <div
         style={{height: "500px", overflowY: "auto", width: "800px"}}
-        onScroll={(e) => {
-            let element = e.currentTarget
-            let maxScrollPosition = element.scrollHeight - element.clientHeight
-
-            if (element.scrollTop > lastScrollTop && Math.abs(maxScrollPosition - element.scrollTop) < 5) {
-                setIsAutoScrollActive(true)
-            } else {
-                setIsAutoScrollActive(false)
-            }
-            setLastScrollTop(e.currentTarget.scrollTop)
-        }}
+        onScroll={scrollHandler}
     >
-        {messages.map((m, index) => <Message key={index} message={m}/>)}
+        {messages.map((m) => <Message key={m.id} message={m}/>)}
         <div ref={messagesAnchorRef}/>
     </div>
 }
 
-const Message: React.FC<{ message: ChatMessageType }> = ({message}) => {
+const Message: React.FC<{ message: ChatMessageAPIType }> = React.memo(({message}) => {
     return <div>
         <img
             alt={'userPick'}
@@ -78,13 +79,12 @@ const Message: React.FC<{ message: ChatMessageType }> = ({message}) => {
         {message.message}
         <hr/>
     </div>
-}
+})
 
 const AddMessageForm: React.FC = () => {
     const [message, setMessage] = useState('')
-    const [readyStatus, setReadyStatus] = useState<'pending' | 'ready'>('pending')
-
     const dispatch = useDispatch()
+    const status = useSelector<AppStateType, StatusType>((state) => state.chat.status)
 
     const sendMessageHandler = () => {
         if (!message) {
@@ -99,10 +99,9 @@ const AddMessageForm: React.FC = () => {
             style={{margin: "30px"}}
             onChange={(e) => setMessage(e.currentTarget.value)}
             value={message}>
-
         </textarea>
         <button
-            disabled={false}
+            disabled={status !== 'ready'}
             onClick={sendMessageHandler}
         >Send
         </button>
